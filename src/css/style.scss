@@ -1,0 +1,11 @@
+@font-face {
+    font-family: 'AdobeCleanHanSC';
+    src: url('https://oss.xiamoqwq.com/font/ZCOOLKuaiLe-Regular.woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+*:not([class*="icon"]):not(i) {
+    font-family: "AdobeCleanHanSC" !important;
+}
