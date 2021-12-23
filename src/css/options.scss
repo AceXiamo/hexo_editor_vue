@@ -1,0 +1,9 @@
+$border-30: 30px;
+@mixin box-line-center {
+    display: inline-flex;
+    align-items: center;
+}
+
+@mixin watting-500 {
+    transition: all .5s;
+}

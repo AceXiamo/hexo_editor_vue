@@ -1,0 +1,59 @@
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+@keyframes hide_show {
+    0% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes hide-in {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes bottom-in-50 {
+    0% {
+        opacity: 0;
+        transform: translateY(50%);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
+/* ------------------------------------------------------------- */
+
+.hide-in-enter-active {
+    animation: hide-in .2s linear;
+}
+
+.hide-in-leave-active {
+    animation: hide-in .2s linear reverse;
+}
+
+.bottom-in-50-enter-active {
+    animation: bottom-in-50 .2s linear;
+}
+
+.bottom-in-50-leave-active {
+    animation: bottom-in-50 .2s linear reverse;
+}
