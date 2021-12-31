@@ -16,6 +16,61 @@
             font-size: 25px;
             display: flex;
             flex-direction: column;
+            transition: all .2s;
+            &:hover .options-handle {
+                transition: all .2s;
+                width: 0;
+            }
+            &:hover .options-btn {
+                transition: all .5s;
+                opacity: 1;
+            }
+            .options-handle {
+                pointer-events: none;
+                position: absolute;
+                right: -50px;
+                bottom: 0;
+                width: 6px;
+                height: 130px;
+                background: linear-gradient(to top, rgba(255, 21, 21, 1), rgba(255, 21, 21, 1) 33.3%, rgba(121, 250, 197, 1) 33.3%, rgba(121, 250, 197, 1), rgba(121, 250, 197, 1) 66.6%, rgba(153, 204, 255, 1) 66.6%, rgba(153, 204, 255, 1));
+                transition: all .2s;
+                &:hover+.options {
+                    transition: all .2s;
+                    display: block;
+                }
+            }
+            .btn {
+                position: relative;
+                &:hover .tip {
+                    opacity: 1;
+                    // display: block;
+                    transition: all 0.2s;
+                }
+                .tip {
+                    opacity: 0;
+                    pointer-events: none;
+                    // display: none;
+                    position: absolute;
+                    top: 5px;
+                    margin: auto;
+                    white-space: nowrap;
+                    transform: translateX(calc(-100% - 50px));
+                    font-size: 15px;
+                    transition: all 0.2s;
+                    img {
+                        $img-size: 50px;
+                        height: $img-size;
+                        width: $img-size;
+                        border-radius: 100%;
+                        overflow: hidden;
+                        margin-right: 15px;
+                    }
+                    span {
+                        position: relative;
+                        top: -15px;
+                    }
+                }
+            }
             .remove {
                 margin-bottom: 20px;
                 box-shadow: 0 5px 10px rgba(245, 135, 137, 1);
@@ -56,6 +111,7 @@
                 }
             }
             .options-btn {
+                opacity: 0;
                 background-color: white;
                 color: white;
                 padding: 20px;
@@ -68,9 +124,6 @@
                 svg {
                     z-index: 10;
                 }
-                &:hover {
-                    transition: all 0.5s;
-                }
                 &::after {
                     $size: 90%;
                     content: "";
@@ -80,9 +133,15 @@
                     position: absolute;
                     z-index: 1;
                 }
+                .tip {
+                    position: absolute;
+                }
             }
         }
         .file {
+            width: 400px;
+            max-width: 400px;
+            min-width: 400px;
             flex: 2;
             height: 100vh;
             padding: 0 $border-30;
@@ -170,10 +229,11 @@
                         margin-right: 7px;
                         font-size: 17px;
                     }
-                    >div {
+                    >div:nth-child(1) {
                         display: flex;
                         flex-direction: column;
                         height: 15px;
+                        width: 20px;
                         overflow: hidden;
                         i:nth-child(1),
                         i:nth-child(2) {
@@ -186,15 +246,26 @@
                             transition: all 0.5s;
                         }
                     }
-                    >span {
-                        color: white;
-                        font-size: 13px;
-                        border-radius: 10px;
-                        padding: 5px 10px;
-                        margin-right: 5px;
-                        background-color: rgba(0, 0, 0, 0.07);
-                        cursor: pointer;
-                        white-space: nowrap;
+                    .url-item {
+                        height: 24px;
+                        overflow: hidden;
+                        >div {
+                            max-width: 358px;
+                            display: flex;
+                            overflow-x: scroll;
+                            scroll-behavior: smooth;
+                            >span {
+                                flex-shrink: 0;
+                                color: white;
+                                font-size: 13px;
+                                border-radius: 10px;
+                                padding: 5px 10px;
+                                margin-right: 5px;
+                                background-color: rgba(0, 0, 0, 0.07);
+                                cursor: pointer;
+                                white-space: nowrap;
+                            }
+                        }
                     }
                 }
             }
@@ -368,6 +439,41 @@
                     }
                 }
             }
+        }
+    }
+    .menu-bar {
+        position: absolute;
+        left: 30px;
+        bottom: 0px;
+        >span {
+            padding: 5px 10px 5px 10px;
+            color: white;
+            line-height: 10px;
+            border-radius: 15px 15px 0 0;
+            font-size: 12px;
+            margin-right: 10px;
+            position: relative;
+            bottom: 5px;
+            cursor: default;
+            transition: all .2s;
+            &:hover {
+                $bottom: 10px;
+                transition: all .2s;
+                padding-bottom: $bottom;
+                bottom: $bottom;
+            }
+        }
+        .hexo {
+            background-color: #FF9782;
+        }
+        .cover {
+            background-color: #A5A7DD;
+        }
+        .shuoshuo {
+            background-color: #FD85AE;
+        }
+        .assets {
+            background-color: #709CFF;
         }
     }
 }

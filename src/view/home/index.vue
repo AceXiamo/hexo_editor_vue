@@ -1,11 +1,7 @@
 <template>
   <div class="index">
     <div class="content">
-      <div
-        class="file"
-        ref="leftFile"
-        :style="{ 'min-width': leftMenuInitWidth + 'px' }"
-      >
+      <div class="file" ref="leftFile">
         <div class="logo" style="display: none">
           <img src="@/assets/qwq-logo.png" />
         </div>
@@ -15,13 +11,17 @@
               <icon type="angle-double-right"></icon>
               <icon type="cog"></icon>
             </div>
-            <span
-              v-for="(f, i) in fileArray"
-              :key="i"
-              v-show="f"
-              @click="to(i)"
-              >{{ f }}</span
-            >
+            <div class="url-item">
+              <div class="wheel-bar" ref="urlScroll">
+                <span
+                  v-for="(f, i) in fileArray"
+                  :key="i"
+                  v-show="f"
+                  @click="to(i)"
+                  >{{ f }}</span
+                >
+              </div>
+            </div>
           </span>
         </div>
         <div class="fis-border">
@@ -36,10 +36,14 @@
             </div>
           </div>
         </div>
-        <img class="background" src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/12/20211226021207651.png"/>
+        <img
+          class="background"
+          src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/12/20211226021207651.png"
+        />
       </div>
-      <div class="markdown">
+      <div ref="markdownBar" class="markdown">
         <mavon-editor
+          :style="{ 'max-width': markdownInitWidth + 'px' }"
           class="editor"
           :toolbars="markDownOptions"
           v-model="markdown"
@@ -47,19 +51,32 @@
         />
       </div>
       <div class="options">
+        <div class="options-handle"></div>
         <transition name="bottom-in-50">
-          <span @click="delShow()" v-if="fileName">
+          <span @click="delShow()" class="btn" v-if="fileName">
             <icon class="remove options-btn" type="trash-alt"></icon>
+            <div class="tip">
+              <img :src="tipImg" /><span>要删除这篇文章吗！</span>
+            </div>
           </span>
         </transition>
-        <span @click="newBlog()">
+        <span @click="newBlog()" class="btn">
           <icon class="edit options-btn" type="pencil-alt"></icon>
+          <div class="tip">
+            <img :src="tipImg" /><span>要写一篇新的文章吗！</span>
+          </div>
         </span>
-        <span @click="save()">
+        <span @click="save()" class="btn">
           <icon class="save options-btn" type="check"></icon>
+          <div class="tip">
+            <img :src="tipImg" /><span>修改后需要保存！</span>
+          </div>
         </span>
-        <span @click="showLogOut()">
+        <span @click="showLogOut()" class="btn">
           <icon class="login-out options-btn" type="power-off"></icon>
+          <div class="tip">
+            <img :src="tipImg" /><span>要退出登陆吗？</span>
+          </div>
         </span>
       </div>
     </div>
@@ -137,6 +154,12 @@
         </div>
       </div>
     </transition>
+    <div class="menu-bar">
+      <span class="hexo">Hexo编辑器</span>
+      <span class="cover">Cover>封面图</span>
+      <span class="shuoshuo">说说</span>
+      <span class="assets">相册&上传</span>
+    </div>
   </div>
 </template>
 
@@ -158,7 +181,10 @@ export default {
       fileArray: [],
       fileList: [],
       markdown: "",
+      tipImg:
+        "https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/12/20211231032248104.jpg",
       leftMenuInitWidth: 0,
+      markdownInitWidth: 0,
       tipText: "",
       tipText2: "",
       tipText3: "",
@@ -186,10 +212,20 @@ export default {
   created() {
     this.init();
     this.fileArray = this.fileUrl.split("/");
-    this.domInit();
+    this.$nextTick(res => {
+      this.wheelHandle();
+      this.domInit();
+    });
   },
   mounted() {},
   methods: {
+    wheelHandle() {
+      let fileDom = document.querySelector(".wheel-bar");
+      fileDom.addEventListener("wheel", event => {
+        event.preventDefault();
+        fileDom.scrollLeft += event.deltaY;
+      });
+    },
     init() {
       let token = this.$cookie.get("token");
       if (token) {
@@ -210,7 +246,9 @@ export default {
       // 用于固定侧栏宽度
       this.$nextTick(() => {
         var width = this.$refs.leftFile.offsetWidth;
+        var rootW = document.body.offsetWidth;
         this.leftMenuInitWidth = width;
+        this.markdownInitWidth = rootW - width + 30;
       });
     },
     fileClick(data) {
@@ -268,7 +306,7 @@ export default {
       tip = tip.split("");
       this.tipText3 = "";
       for (let i = 0; i < tip.length; i++) {
-        console.log("sleep 1000ms");
+        // console.log("sleep 1000ms");
         await this.sleep(100);
         this.tipText3 += tip[i];
       }
@@ -322,7 +360,7 @@ export default {
       tip = tip.split("");
       this.tipText2 = "";
       for (let i = 0; i < tip.length; i++) {
-        console.log("sleep 1000ms");
+        // console.log("sleep 1000ms");
         await this.sleep(100);
         this.tipText2 += tip[i];
       }
@@ -359,7 +397,7 @@ export default {
       tip = tip.split("");
       this.tipText = "";
       for (let i = 0; i < tip.length; i++) {
-        console.log("sleep 1000ms");
+        // console.log("sleep 1000ms");
         await this.sleep(100);
         this.tipText += tip[i];
       }
@@ -370,7 +408,7 @@ export default {
       tip = tip.split("");
       this.tipText4 = "";
       for (let i = 0; i < tip.length; i++) {
-        console.log("sleep 1000ms");
+        // console.log("sleep 1000ms");
         await this.sleep(100);
         this.tipText4 += tip[i];
       }

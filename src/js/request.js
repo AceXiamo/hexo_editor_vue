@@ -19,7 +19,7 @@ service.interceptors.request.use(
         if (token) {
             config.headers['Auth'] = user.username + "." + token;
         }
-        console.log(config)
+        // console.log(config)
         return config;
     },
     (error) => {

@@ -42,7 +42,6 @@ Vue.prototype.sleep = function(ms) {
 }
 
 Vue.prototype.verifyRes = function(res) {
-    console.log(res)
     let error = false;
     if (res.code != 200) {
         this.$message.error(res.msg)
