@@ -12,7 +12,7 @@
         </div>
         <div>
           <div class="line-border">
-            <input type="text" v-model="password" placeholder="password..." />
+            <input type="password" v-model="password" placeholder="password..." />
           </div>
         </div>
       </div>
