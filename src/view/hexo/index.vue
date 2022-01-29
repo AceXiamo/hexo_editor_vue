@@ -8,8 +8,8 @@
         <div class="file-url">
           <span>
             <div @click="urlEdit">
-              <icon type="angle-double-right"></icon>
-              <icon type="cog"></icon>
+              <font-awesome-icon :icon="['fas', 'angle-double-right']" />
+              <font-awesome-icon :icon="['fas', 'cog']" />
             </div>
             <div class="url-item">
               <div class="wheel-bar" ref="urlScroll">
@@ -54,26 +54,32 @@
         <div class="options-handle"></div>
         <transition name="bottom-in-50">
           <span @click="delShow()" class="btn" v-if="fileName">
-            <icon class="remove options-btn" type="trash-alt"></icon>
+            <font-awesome-icon :icon="['fas', 'trash-alt']" />
             <div class="tip">
               <img :src="tipImg" /><span>要删除这篇文章吗！</span>
             </div>
           </span>
         </transition>
         <span @click="newBlog()" class="btn">
-          <icon class="edit options-btn" type="pencil-alt"></icon>
+          <span class="edit options-btn">
+            <font-awesome-icon :icon="['fas', 'pencil-alt']" />
+          </span>
           <div class="tip">
             <img :src="tipImg" /><span>要写一篇新的文章吗！</span>
           </div>
         </span>
         <span @click="save()" class="btn">
-          <icon class="save options-btn" type="check"></icon>
+          <span class="save options-btn">
+            <font-awesome-icon :icon="['fas', 'check']" />
+          </span>
           <div class="tip">
             <img :src="tipImg" /><span>修改后需要保存！</span>
           </div>
         </span>
         <span @click="showLogOut()" class="btn">
-          <icon class="login-out options-btn" type="power-off"></icon>
+          <span class="login-out options-btn">
+            <font-awesome-icon :icon="['fas', 'power-off']" />
+          </span>
           <div class="tip">
             <img :src="tipImg" /><span>要退出登陆吗？</span>
           </div>
@@ -84,7 +90,7 @@
       <div class="file-set" v-if="showUrlEdit">
         <div class="title">
           <span>
-            <icon type="snowflake"></icon>
+            <font-awesome-icon :icon="['fas', 'snowflake']" />
             <span>{{ tipText }}</span>
             <span> _</span>
           </span>
@@ -94,7 +100,7 @@
           </div>
         </div>
         <div @click="showUrlEdit = false" class="close-edit">
-          <icon type="times-circle"></icon>
+          <font-awesome-icon :icon="['fas', 'times-circle']" />
         </div>
       </div>
     </transition>
@@ -102,7 +108,7 @@
       <div class="file-set name-set" v-if="showNameEdit">
         <div class="title">
           <span>
-            <icon type="broom"></icon>
+            <font-awesome-icon :icon="['fas', 'broom']" />
             <span>{{ tipText2 }}</span>
             <span> _</span>
           </span>
@@ -120,7 +126,7 @@
       <div class="del-dialog" v-if="delConfirm">
         <div>
           <span>
-            <icon type="exclamation-circle"></icon>
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" />
             <span>{{ tipText3 }}</span>
             <span> _</span>
           </span>
@@ -139,27 +145,21 @@
       <div class="del-dialog" v-if="logOutConfirm">
         <div>
           <span>
-            <icon type="exclamation-circle"></icon>
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']" />
             <span>{{ tipText4 }}</span>
             <span> _</span>
           </span>
           <div>
             <div class="close" @click="logOutConfirm = false">
-              <icon type="times"></icon>
+              <font-awesome-icon :icon="['fas', 'times']" />
             </div>
             <div class="ok" @click="logOut">
-              <icon type="check"></icon>
+              <font-awesome-icon :icon="['fas', 'check']" />
             </div>
           </div>
         </div>
       </div>
     </transition>
-    <div class="menu-bar">
-      <span class="hexo">Hexo编辑器</span>
-      <span class="cover">Cover>封面图</span>
-      <span class="shuoshuo">说说</span>
-      <span class="assets">相册&上传</span>
-    </div>
   </div>
 </template>
 
@@ -172,6 +172,7 @@ import {
   createFile
 } from "@/js/api/file";
 import Message from "@/components/message";
+
 export default {
   name: "index",
   components: { Message },
@@ -227,19 +228,14 @@ export default {
       });
     },
     init() {
-      let token = this.$cookie.get("token");
-      if (token) {
-        // 取Cookie中配置的路径，首次加载/取不到则需要再次配置
-        let fileUrl = this.$cookie.get("fileUrl");
-        if (!fileUrl) {
-          this.loadTip();
-          this.showUrlEdit = true;
-        } else {
-          this.fileUrl = fileUrl;
-          this.loadFile();
-        }
+      // 取Cookie中配置的路径，首次加载/取不到则需要再次配置
+      let fileUrl = this.$cookie.get("fileUrl");
+      if (!fileUrl) {
+        this.loadTip();
+        this.showUrlEdit = true;
       } else {
-        this.$router.push("/login");
+        this.fileUrl = fileUrl;
+        this.loadFile();
       }
     },
     domInit() {
