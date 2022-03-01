@@ -49,7 +49,7 @@ export default {
       this.acitve();
     },
     acitve() {
-      var path = this.$route.path;
+      let path = this.$route.path;
       this.active = path.split("/")[1];
     }
   }
@@ -59,7 +59,10 @@ export default {
 .menu-bar {
   position: absolute;
   left: 30px;
-  bottom: 0px;
+  bottom: 0;
+  z-index: 99;
+
+  $bottom: 15px;
   > span {
     padding: 5px 10px 5px 10px;
     color: white;
@@ -72,29 +75,27 @@ export default {
     cursor: default;
     transition: all 0.2s;
     &:hover {
-      $bottom: 10px;
       transition: all 0.2s;
       padding-bottom: $bottom;
       bottom: $bottom;
     }
   }
   .menu-active {
-    $bottom: 10px;
     transition: all 0.2s;
     padding-bottom: $bottom;
     bottom: $bottom;
   }
   .hexo {
-    background-color: #00CAFF;
+    background-color: #00caff;
   }
   .cover {
-    background-color: #EFAD70;
+    background-color: #efad70;
   }
   .shuo {
-    background-color: #EBA2E6;
+    background-color: #eba2e6;
   }
   .assets {
-    background-color: #48C088;
+    background-color: #48c088;
   }
 }
 </style>

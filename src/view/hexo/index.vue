@@ -429,7 +429,7 @@ export default {
     logOut() {
       this.$message.warning("退出登陆成功！");
       // 清除缓存并退出登陆
-      this.$cookie.remove("fileUrl");
+      // this.$cookie.remove("fileUrl");
       this.$cookie.remove("token");
       this.$cookie.remove("user");
       this.$router.push("/login");
@@ -443,7 +443,7 @@ hr {
   display: none;
 }
 </style>
-<style lang="scss">
+<style lang="scss" scoped>
 @import "@/css/options.scss";
 @import "./style.scss";
 </style>

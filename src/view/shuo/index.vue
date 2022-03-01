@@ -1,59 +1,60 @@
 <template>
   <div class="shuo">
-    <div class="item">
-      <div class="content id-card">
-        <span class="title">ID Card</span>
-        <div class="info">
-          <img class="avatar" src="https://qwq.link/images/avatar.jpg" />
-          <div class="uid">
-            <div>UID</div>
-            <span>20</span>
-          </div>
-          <div class="nick">
-            <div>nick</div>
-            <div class="input-line">
-              <input type="text" v-model="info.nickname" />
-              <font-awesome-icon :icon="['fas', 'check-circle']" />
+    <div class="background-filter"></div>
+    <div class="content">
+      <div class="left">
+        <div class="user">
+          <div class="top">
+            <div class="user-img"></div>
+            <div class="user-info">
+              <img src="https://qwq.link/images/avatar.jpg" alt="">
+              <span>浅末saki</span>
             </div>
           </div>
-          <div class="key">
-            <div>Key</div>
-            <div class="input-line">
-              <input type="text" v-model="info.key" />
-              <font-awesome-icon :icon="['fas', 'check-circle']" />
+          <div class="bottom">
+            <div class="title">
+              <span>#</span>
+              <span>Config</span>
+            </div>
+            <div class="user-config">
+              <div class="row">
+                <div>昵称:</div>
+                <input type="text"/>
+              </div>
+              <div class="row">
+                <div>key:</div>
+                <input type="text"/>
+              </div>
+              <div class="save-btn">
+                <div>保 存</div>
+              </div>
             </div>
           </div>
         </div>
       </div>
+      <div class="center">
+        <div class="add">
+          <textarea v-model="shuo" :class="['area-content', shuo?'area-content-focus':'']"></textarea>
+          <span class="title">你指尖跃动的电光，是我此生不灭的信仰...</span>
+          <div class="images">
+            <div class="item" v-for="index of 6">
+              <div class="img"><img src="https://qwq.link/images/avatar.jpg" alt=""/></div>
+            </div>
+            <div class="item">
+              <div class="img-sel">
+                <font-awesome-icon :icon="['fas', 'plus']" />
+              </div>
+            </div>
+          </div>
+          <div class="sub"><span>发 送</span></div>
+        </div>
+      </div>
+      <div class="right">
+        <div class="message">
+
+        </div>
+      </div>
     </div>
-    <div class="item">
-         <div class="content his">
-           <span class="title">History</span>
-           <div class="line">
-             <!-- <div class="line-item" v-for="index of 5" :key="index">
-                <div class="text">
-                  qwqwqwqwqwqwqwqwq
-                </div>
-                <div class="image">
-                  <div v-for="index of 5" :key="index">
-                    <div>
-                      <img src="https://image.qwq.link/images/2021/11/13/BE2962FD-639C-4E87-9943-2C9D6246B1DD.jpg"/>
-                    </div>
-                  </div>
-                </div>
-             </div> -->
-           </div>
-         </div>
-    </div>
-    <div class="item">
-       <div class="content">
-           <span class="title">Add</span>
-         </div>
-    </div>
-    <img
-      class="background"
-      src="https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2022/01/20220124085336334.jpg"
-    />
   </div>
 </template>
 
@@ -62,13 +63,16 @@ export default {
   name: "shuo",
   data() {
     return {
-      info:{
+      info: {
+        img: "https://xiamo.oss-accelerate.aliyuncs.com/xiamo_avatar/202112221049337302542.jpg",
         nickname: "xiamo",
-        key: "8622a994c2bc48b884b43b261f46495a",
-      }
+        key: "8622a994c2bc48b884b43b261f46495a"
+      },
+      shuo: ""
     };
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {}
 };
 </script>
