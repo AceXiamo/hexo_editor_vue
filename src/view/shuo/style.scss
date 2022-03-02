@@ -8,305 +8,338 @@
   background-position: bottom;
   z-index: 1;
 
+  #yuki {
+    height: 100vh;
+    width: 100vw;
+    position: absolute;
+    top: 0;
+    z-index: 11;
+    pointer-events: none;
+  }
+
+  $border-radius-size: 4px;
+
   .background-filter {
     $size: 100%;
     height: $size;
     width: $size;
     position: absolute;
-    z-index: -1;
+    z-index: -2;
     pointer-events: none;
     backdrop-filter: blur(20px);
   }
 
-  .content {
-    display: flex;
-    flex-direction: row;
-    margin: 20px 0 0 0;
+  .scroll {
+    height: 100vh;
+    overflow: auto;
+    z-index: 10;
 
-    .left, .right {
-      width: calc((100% - 632px - 40px) / 2);
-    }
-
-    .left {
+    > .content {
       display: flex;
       flex-direction: row;
-      justify-content: end;
+      margin: 10px 0 0 0;
 
-      .user {
-        width: 350px;
-        height: max-content;
-        overflow: hidden;
-        padding-bottom: 20px;
-        transition: all .3s;
-
-        .top {
-          background: rgba(255, 255, 255, 1);
-          padding-bottom: 20px;
-          border-radius: 7px;
-
-          .user-img {
-            background-image: url("https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png");
-            background-size: cover;
-            background-position: center;
-            height: 150px;
-            border-top-left-radius: 7px;
-            border-top-right-radius: 7px;
-          }
-
-          .user-info {
-            display: flex;
-            margin: 0 20px;
-            height: 40px;
-            position: relative;
-
-            img {
-              $size: 80px;
-              height: $size;
-              width: $size;
-              position: absolute;
-              top: calc(-80px / 2);
-              border-radius: 100%;
-            }
-
-            span {
-              margin: 10px 0 0 90px;
-              font-size: 15px;
-            }
-          }
-        }
-
-        .bottom {
-          border-radius: 7px;
-          background: rgba(255, 255, 255, 1);
-          padding: 20px 0;
-          margin-top: 10px;
-
-          .title {
-            margin: 0 20px 18px 20px;
-
-            > span:nth-child(1) {
-              color: #F5676E;
-              font-size: 20px;
-              font-weight: 700;
-            }
-
-            > span:nth-child(2) {
-              color: #9AAEBB;
-              font-size: 15px;
-              font-weight: 500;
-            }
-          }
-
-          .user-config {
-            margin: 0 30px;
-
-            .row:not(:first-child) {
-              margin-top: 15px;
-            }
-
-            .row {
-              display: flex;
-              align-items: center;
-
-              div {
-                flex: 2;
-                font-size: 15px;
-                color: #48576a;
-              }
-
-              input {
-                flex: 8;
-                appearance: none;
-                background-color: #fff;
-                background-image: none;
-                border-radius: 4px;
-                border: 1px solid #bfcbd9;
-                box-sizing: border-box;
-                color: #1f2d3d;
-                font-size: 15px;
-                height: 36px;
-                line-height: 1;
-                outline: 0;
-                padding: 3px 10px;
-              }
-            }
-
-            .save-btn {
-              display: flex;
-              justify-content: center;
-
-              > div {
-                width: 100px;
-                background: rgba(0, 161, 214, .7) !important;
-                color: white;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                padding: 5px 0;
-                border-radius: 6px;
-                margin-top: 20px;
-                box-shadow: 0 5px 15px rgba(0, 161, 214, .3);
-                cursor: default;
-              }
-            }
-          }
-        }
+      > .left, > .right {
+        width: calc((100% - 632px - 40px) / 2);
       }
-    }
 
-    .center {
-      margin: 0 10px;
-      width: 632px;
-      border-radius: 7px;
-
-      .add {
-        width: 630px;
-        overflow-x: hidden;
-        background: white;
-        border-radius: 7px;
+      > .left {
         display: flex;
-        flex-direction: column;
-        position: relative;
+        flex-direction: row;
+        justify-content: end;
 
-        .title {
-          position: absolute;
-          color: rgba(193, 173, 227, .7);
-          font-size: 13px;
-          left: 20px;
-          top: 20px;
+        .user {
+          width: 350px;
+          height: max-content;
+          overflow: hidden;
+          padding-bottom: 20px;
+          position: fixed;
+          filter: blur(0);
           transition: all .3s;
-        }
 
-        .area-content:focus,.area-content-focus {
-          margin-top: 30px !important;
-          transition: margin-top .3s;
-        }
+          .top {
+            background: rgba(255, 255, 255, 1);
+            padding-bottom: 20px;
+            border-radius: $border-radius-size;
 
-        .area-content:focus + .title,.area-content-focus + .title {
-          top: 10px;
-          background: #C1ADE3;
-          color: white;
-          font-size: 12px;
-          padding: 2px 5px;
-          border-top-left-radius: 3px;
-          border-top-right-radius: 3px;
-          transition: all .3s;
-        }
+            .user-img {
+              background-image: url("https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png");
+              background-size: cover;
+              background-position: center;
+              height: 150px;
+              border-top-left-radius: $border-radius-size;
+              border-top-right-radius: $border-radius-size;
+            }
 
-        .area-content {
-          width: calc(95% - 10px);
-          margin: 10px;
-          border-radius: 7px;
-          outline: none;
-          border: unset;
-          height: 200px;
-          resize: none;
-          background-image: url("https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220226093136847.jpg");
-          background-position: bottom left;
-          background-size: 100px;
-          background-repeat: no-repeat;
-          border: 1px solid #C1ADE3;
-          padding: 10px;
-          position: relative;
-          transition: margin-top .5s;
-
-          &::-webkit-scrollbar {
-            /*滚动条整体样式*/
-            width: 6px;
-            /*高宽分别对应横竖滚动条的尺寸*/
-            height: 1px;
-          }
-
-          &::-webkit-scrollbar-thumb {
-            /*滚动条里面小方块*/
-            border-radius: 10px;
-            background-color: skyblue;
-            background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.2) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0.2) 75%, transparent 75%, transparent);
-          }
-
-          &::-webkit-scrollbar-track {
-            /*滚动条里面轨道*/
-            border-radius: 10px;
-          }
-        }
-
-        .images {
-          display: flex;
-          flex-direction: row;
-          flex-wrap: wrap;
-          margin: 0 5px;
-
-          .item {
-            width: 20%;
-            height: 0;
-            padding-bottom: 20%;
-            position: relative;
-
-            .img {
-              position: absolute;
-              margin: 5px;
-              border: 5px solid rgba(0, 0, 0, 0.03);
-              border-radius: 7px;
-              width: calc(100% - 20px);
+            .user-info {
               display: flex;
-              justify-content: center;
-              align-items: center;
+              margin: 0 20px;
+              height: 40px;
+              position: relative;
 
               img {
-                border-radius: 5px;
-                width: 100%;
-                height: 100%;
-                object-fit: cover;
+                $size: 80px;
+                height: $size;
+                width: $size;
+                position: absolute;
+                top: calc(-80px / 2);
+                border-radius: 100%;
+              }
+
+              span {
+                margin: 10px 0 0 90px;
+                font-size: 15px;
+              }
+            }
+          }
+
+          .bottom {
+            border-radius: $border-radius-size;
+            background: rgba(255, 255, 255, 1);
+            padding: 20px 0;
+            margin-top: 10px;
+
+            .title {
+              margin: 0 20px 18px 20px;
+
+              > span:nth-child(1) {
+                color: #F5676E;
+                font-size: 20px;
+                font-weight: 700;
+              }
+
+              > span:nth-child(2) {
+                color: #9AAEBB;
+                font-size: 15px;
+                font-weight: 500;
               }
             }
 
-            .img-sel{
-              position: absolute;
-              top: 0;
-              bottom: 0;
-              left: 0;
-              right: 0;
+            .user-config {
+              margin: 0 30px;
+
+              .row:not(:first-child) {
+                margin-top: 15px;
+              }
+
+              .row {
+                display: flex;
+                align-items: center;
+
+                div {
+                  flex: 2;
+                  font-size: 15px;
+                  color: #48576a;
+                }
+
+                input {
+                  flex: 8;
+                  appearance: none;
+                  background-color: #fff;
+                  background-image: none;
+                  border-radius: 4px;
+                  border: 1px solid #bfcbd9;
+                  box-sizing: border-box;
+                  color: #1f2d3d;
+                  font-size: 15px;
+                  height: 36px;
+                  line-height: 1;
+                  outline: 0;
+                  padding: 3px 10px;
+                }
+              }
+
+              .save-btn {
+                display: flex;
+                justify-content: center;
+
+                > div {
+                  width: 100px;
+                  background: rgba(0, 161, 214, .7) !important;
+                  color: white;
+                  display: flex;
+                  justify-content: center;
+                  align-items: center;
+                  padding: 5px 0;
+                  border-radius: $border-radius-size;
+                  margin-top: 20px;
+                  box-shadow: 0 5px 15px rgba(0, 161, 214, .3);
+                  cursor: default;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      > .center {
+        overflow: auto;
+        margin: 0 10px;
+        width: 632px;
+        border-radius: $border-radius-size;
+
+        .add {
+          overflow-x: hidden;
+          background: white;
+          border-radius: $border-radius-size;
+          display: flex;
+          flex-direction: column;
+          position: relative;
+
+          .title {
+            position: absolute;
+            color: rgba(193, 173, 227, .7);
+            font-size: 13px;
+            left: 20px;
+            top: 20px;
+            transition: all .3s;
+          }
+
+          .area-content:focus, .area-content-focus {
+            margin-top: 30px !important;
+            transition: margin-top .3s;
+          }
+
+          .area-content:focus + .title, .area-content-focus + .title {
+            top: 10px;
+            background: #C1ADE3;
+            color: white;
+            font-size: 12px;
+            padding: 2px 5px;
+            border-top-left-radius: 3px;
+            border-top-right-radius: 3px;
+            transition: all .3s;
+          }
+
+          .area-content {
+            width: calc(95% - 10px);
+            margin: 10px;
+            border-radius: $border-radius-size;
+            outline: none;
+            border: unset;
+            height: 200px;
+            resize: none;
+            background-image: url("https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220226093136847.jpg");
+            background-position: bottom left;
+            background-size: 100px;
+            background-repeat: no-repeat;
+            border: 1px solid #C1ADE3;
+            padding: 10px;
+            position: relative;
+            transition: margin-top .5s;
+          }
+
+          .sub {
+            display: flex;
+            justify-content: end;
+            padding: 0 16px 16px 0;
+
+            span {
+              background: rgba(0, 161, 214, .7) !important;
+              box-shadow: 0 5px 15px rgba(0, 161, 214, .3);
+              color: white;
               display: flex;
               justify-content: center;
               align-items: center;
-              border: 2px dashed #bdc0c5;
-              margin: 10px;
-              color: #bdc0c5;
+              padding: 3px 12px;
+              border-radius: $border-radius-size;
+              font-size: 14px;
+              cursor: default;
             }
           }
         }
 
-        .sub {
-          display: flex;
-          justify-content: end;
-          padding: 0 16px 16px 0;
+        .his-content {
+          background-color: white;
+          margin-top: 10px;
+          border-radius: $border-radius-size;
+          padding: 20px;
 
-          span {
-            background: rgba(0, 161, 214, .7) !important;
-            box-shadow: 0 5px 15px rgba(0, 161, 214, .3);
-            color: white;
+          $avatar-size: 60px;
+          $avatar-margin-left: 10px;
+          &:last-child{
+            margin-bottom: 10px;
+          }
+
+          .user {
             display: flex;
-            justify-content: center;
             align-items: center;
-            padding: 3px 12px;
-            border-radius: 6px;
-            font-size: 14px;
-            cursor: default;
+
+            .left {
+              display: flex;
+
+              img {
+                height: $avatar-size;
+                width: $avatar-size;
+                object-fit: cover;
+                border-radius: 100%;
+              }
+            }
+
+            .right {
+              margin-left: $avatar-margin-left;
+              display: flex;
+              flex-direction: column;
+
+              > span:nth-child(1) {
+                margin-bottom: 2px;
+                color: rgb(251, 114, 153);
+                font-size: 16px;
+              }
+
+              > span:nth-child(2) {
+                margin-top: 2px;
+                color: #99a2aa;
+                font-size: 12px;
+              }
+            }
+          }
+
+          .text-area {
+            padding-left: $avatar-size + $avatar-margin-left;
+
+            > span {
+              font-size: 14px;
+              line-height: 22px;
+              word-break: break-all;
+            }
+          }
+
+          .img-area {
+            margin-top: 20px;
+            margin-left: $avatar-size + $avatar-margin-left;
+            margin-right: $avatar-size + $avatar-margin-left;
+
+            .images-scale {
+              .item {
+                width: 25%;
+                padding-bottom: 25%;
+              }
+            }
           }
         }
+
       }
-    }
 
-    .right {
-      display: flex;
-      flex-direction: row;
-      justify-content: start;
+      > .right {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
 
-      .message {
-        width: 400px;
-        height: 200px;
-        background: white;
-        border-radius: 7px;
+        .message {
+          position: fixed;
+          width: 400px;
+          height: 200px;
+          background: white;
+          border-radius: $border-radius-size;
+          display: flex;
+          flex-direction: column-reverse;
+
+          img{
+            height: 70%;
+            object-fit: contain;
+          }
+        }
       }
     }
   }

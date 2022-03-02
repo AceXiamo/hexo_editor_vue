@@ -18,6 +18,7 @@
         "@fortawesome/fontawesome-free-solid": "^5.0.13",
         "@fortawesome/fontawesome-svg-core": "^1.2.36",
         "@fortawesome/vue-fontawesome": "^2.0.6",
+        "ali-oss": "^6.17.1",
         "axios": "^0.24.0",
         "highlight.js": "^11.3.1",
         "markdown-it": "^12.2.0",

@@ -53,3 +53,73 @@ Vue.prototype.verifyRes = function(res) {
 Vue.prototype.timeNow = function() {
     return new Date(+new Date() + 8 * 3600 * 1000).toJSON().substr(0, 19).replace("T", " ");
 }
+
+Vue.prototype.$yuki = function (){
+  let canvas = document.querySelector("#yuki");
+  let min = .2;
+  // 储存雪花
+  let yuki = [];
+  let canvasW = window.innerWidth;
+  let canvasH = window.innerHeight;
+
+  canvas.width = canvasW;
+  canvas.height = canvasH;
+  let ctx = canvas.getContext("2d");
+  yukiFun()
+
+  function yukiFun() {
+    setInterval(() => {
+      genYuki();
+      clearCanvas();
+      // 背景色
+      ctx.fillStyle = "rgba(0,0,0,0)"
+      ctx.fillRect(0, 0, canvasW, canvasH);
+      yuki.forEach(v => {
+        ctx.fillStyle = "rgba(255,255,255,.9)"
+        v.y += v.speed;
+        // 方向
+        if (v.path == null) v.path = randomNum(-.5, .5);
+        let num1 = v.x + v.path;
+        let num2 = num1 + (v.path < 0 ? -.5 : .5);
+        v.x = randomNum(num1, num2)
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = "white";
+
+        ctx.beginPath();
+        ctx.arc(v.x, v.y, v.size, 0, 2 * Math.PI)
+        ctx.closePath();
+        ctx.fill()
+      })
+    }, 20)
+  }
+
+  let maxNum = 100;
+  function genYuki() {
+    delYuki();
+    if (yuki.length > maxNum) return;
+    let yukiObj = {};
+    yukiObj.x = randomNum(0, canvasW);
+    yukiObj.y = 0;
+    yukiObj.speed = randomNum(.5, 5);
+    yukiObj.size = min + 2 * yukiObj.speed;
+    yuki.push(yukiObj);
+  }
+
+  function delYuki() {
+    for (let i = 0; i <= yuki.length; i++) {
+      if (yuki[i] && yuki[i].y >= canvasH) {
+        yuki.splice(i, 1);
+      }
+    }
+  }
+
+  function clearCanvas() {
+    let w = canvas.width;
+    let h = canvas.height;
+    ctx.clearRect(0, 0, w, h);
+  }
+
+  function randomNum(n, m) {
+    return Math.random() * (m - n) + n;
+  }
+}

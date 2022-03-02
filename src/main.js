@@ -42,6 +42,10 @@ Vue.use(Msg);
 import cookie from 'vue-cookies'
 Vue.prototype.$cookie = cookie
 
+// xm-tools
+import './components/xm-tools/tools'
+import './components/xm-tools/css/global.scss'
+
 /* eslint-disable no-new */
 new Vue({
     el: '#app',
