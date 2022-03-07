@@ -7,12 +7,12 @@
       <div class="login-form">
         <div>
           <div class="line-border">
-            <input type="text" v-model="username" placeholder="username..." />
+            <input type="text" v-model="username" placeholder="username..."/>
           </div>
         </div>
         <div>
           <div class="line-border">
-            <input type="password" v-model="password" placeholder="password..." />
+            <input type="password" v-model="password" placeholder="password..."/>
           </div>
         </div>
       </div>
@@ -31,7 +31,8 @@
 </template>
 
 <script>
-import { login } from "@/js/api/user";
+import {login} from "@/js/api/user";
+
 export default {
   name: "login",
   data() {
@@ -40,21 +41,31 @@ export default {
       password: ""
     };
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     toEdit() {
-      login({ username: this.username, password: this.password }).then(
+      login({username: this.username, password: this.password}).then(
         res => {
-          if (res.code == 200) {
-            this.$cookie.set("token", res.data);
+          if (res.code === 200) {
+            this.$cookie.set("token", res.data.code);
             this.$cookie.set("user", {
               username: this.username,
               password: this.password
             });
-            this.$message.success("登陆成功~");
+            localStorage.setItem("ali", JSON.stringify({
+              accessKeyId: res.data.ali.AccessKeyId,
+              accessKeySecret: res.data.ali.AccessKeySecret,
+              bucket: res.data.ali.Bucket,
+              ossHost: res.data.ali.OssHost,
+              region: res.data.ali.Region
+            }))
+            // 初始化阿里云OSS
+            this.$AliOSSInit();
+            this.$xmMessage.success("登陆成功~");
             this.$router.push("/");
           } else {
-            this.$message.error(res.msg);
+            this.$xmMessage.error(res.msg);
           }
         }
       );

@@ -5,17 +5,11 @@ import App from './App'
 import router from './router'
 
 // fontawesome
-import { FontAwesomeIcon, FontAwesomeLayers, FontAwesomeLayersText } from '@fortawesome/vue-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import solid from '@fortawesome/fontawesome-free-solid'
-import regular from '@fortawesome/fontawesome-free-regular'
-import brands from '@fortawesome/fontawesome-free-brands'
-library.add(solid)
-library.add(regular)
-library.add(brands)
+import { fas } from '@fortawesome/free-solid-svg-icons'
+library.add(fas)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
-Vue.component('font-awesome-layers', FontAwesomeLayers)
-Vue.component('font-awesome-layers-text', FontAwesomeLayersText)
 
 // axios
 import './js/http'
@@ -33,10 +27,6 @@ import 'mavon-editor/dist/css/index.css'
 Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
-
-// 全局消息提示
-import Msg from "@/js/message"
-Vue.use(Msg);
 
 // cookie
 import cookie from 'vue-cookies'

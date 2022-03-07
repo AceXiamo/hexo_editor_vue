@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import ShowImage from "./ShowImage"
+import ShowImage from "./show_image"
 
 // 构造Vue实例
 let vueEl = Vue.extend(ShowImage);

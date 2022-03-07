@@ -1,6 +1,7 @@
-import message from "@/components/message"
+import message from "./message"
 
 let Msg = {};
+
 
 Msg.install = (Vue) => {
     let vue = Vue;
@@ -35,7 +36,7 @@ Msg.install = (Vue) => {
         }
     };
 
-    Vue.prototype.$message = MsgMain;
+    Vue.prototype.$xmMessage = MsgMain;
 }
 
 export default Msg;

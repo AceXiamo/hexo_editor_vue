@@ -45,7 +45,7 @@ const utils = function () {
     let suffix = name[name.length - 1];
     // 生成一个新的文件名
     let fileName = this.$genFileName(suffix);
-    return await this.$AliOSSUpload(file.raw, path + fileName, file.raw.type);
+    return await this.$AliOSSUpload(file, path + fileName, file.type);
   }
 
   /*
@@ -70,7 +70,7 @@ const utils = function () {
     let suffix = name[name.length - 1];
     // 生成一个新的文件名
     let fileName = this.$genFileName(suffix);
-    return await this.$AliOSSMultipartUpload(file.raw, path + fileName, file.raw.type, progress);
+    return await this.$AliOSSMultipartUpload(file, path + fileName, file.type, progress);
   }
 
   /*
@@ -97,11 +97,11 @@ const utils = function () {
     }
     sizeVerify = file.size / 1024 / 1024 < size;
     if (!typeVerify) {
-      this.$message.error('选择的文件格式有误, 请重新选择!');
+      this.$xMessage.error('选择的文件格式有误, 请重新选择!');
       return false;
     }
     if (!sizeVerify) {
-      this.$message.error('选择的文件最大不能超过5M, 请重新选择!');
+      this.$xMessage.error('选择的文件最大不能超过5M, 请重新选择!');
       return false;
     }
     return true;
@@ -125,8 +125,8 @@ const utils = function () {
   }
   Vue.prototype.$compareBigToSmall = function (property) {
     return function (a, b) {
-      var value1 = a[property];
-      var value2 = b[property];
+      let value1 = a[property];
+      let value2 = b[property];
       return value2 - value1;
     }
   };
@@ -137,7 +137,10 @@ const utils = function () {
       return value1 - value2;
     }
   };
-
+  Vue.prototype.$ossWebP = function (url) {
+    let suffix = "?x-oss-process=image/format,webp#";
+    return url + suffix;
+  }
 }
 
 export default utils;

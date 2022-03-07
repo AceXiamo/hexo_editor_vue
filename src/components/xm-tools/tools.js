@@ -1,13 +1,16 @@
 import Vue from 'vue';
 
-import ShowImage from "./ShowImage/index";
+import ShowImage from "./show_image/index";
 Vue.use(ShowImage);
 
-import ShowVideo from "./ShowVideo/index";
+import ShowVideo from "./show_video/index";
 Vue.use(ShowVideo);
-
-import AliOSS from "./AliOSS/index";
-Vue.use(AliOSS);
 
 import Utils from "./utils"
 Vue.use(Utils);
+
+import Msg from "./message/index"
+Vue.use(Msg);
+
+import AliOSS from "./alioss/index";
+Vue.use(AliOSS);

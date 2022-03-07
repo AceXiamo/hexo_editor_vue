@@ -171,11 +171,9 @@ import {
   removeFile,
   createFile
 } from "@/js/api/file";
-import Message from "@/components/message";
 
 export default {
   name: "index",
-  components: { Message },
   data() {
     return {
       fileUrl: "/data",
@@ -293,7 +291,7 @@ export default {
         if (this.verifyRes(res)) {
           return;
         }
-        this.$message.success(res.data);
+        this.$xmMessage.success(res.data);
       });
     },
     async loadTip3() {
@@ -325,7 +323,7 @@ export default {
           this.markdown = "";
           this.fileName = "";
           this.delConfirm = false;
-          this.$message.success(res.data);
+          this.$xmMessage.success(res.data);
           this.loadFile();
         }
       });
@@ -345,7 +343,7 @@ export default {
           this.markdown = "";
           this.fileName = "";
           this.showNameEdit = false;
-          this.$message.success(res.data);
+          this.$xmMessage.success(res.data);
           this.loadFile();
         }
       });
@@ -363,7 +361,7 @@ export default {
     },
     async save() {
       if (!this.markdown) {
-        this.$message.error("无内容 ! ! !");
+        this.$xmMessage.error("无内容 ! ! !");
         return;
       }
       if (this.fileName) {
@@ -427,12 +425,13 @@ export default {
       this.logOutConfirm = true;
     },
     logOut() {
-      this.$message.warning("退出登陆成功！");
+      this.$xmMessage.warning("退出登陆成功！");
       // 清除缓存并退出登陆
       // this.$cookie.remove("fileUrl");
       this.$cookie.remove("token");
       this.$cookie.remove("user");
       this.$router.push("/login");
+      localStorage.removeItem("ali");
     }
   }
 };

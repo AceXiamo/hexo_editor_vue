@@ -25,7 +25,7 @@ export default {
         {
           name: "Cover>封面图",
           class: "cover",
-          path: "/hexo"
+          path: "/cover"
         },
         {
           name: "说说",
@@ -33,9 +33,9 @@ export default {
           path: "/shuo"
         },
         {
-          name: "相册&上传",
-          class: "assets",
-          path: "/assets"
+          name: "插画&Upload",
+          class: "image",
+          path: "/image"
         }
       ]
     };
@@ -94,7 +94,7 @@ export default {
   .shuo {
     background-color: #eba2e6;
   }
-  .assets {
+  .image {
     background-color: #48c088;
   }
 }

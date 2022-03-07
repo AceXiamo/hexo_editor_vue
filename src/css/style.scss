@@ -54,6 +54,15 @@
       border: 2px dashed #bdc0c5;
       margin: 10px;
       color: #bdc0c5;
+
+      > input[type='file'] {
+        opacity: 0;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+      }
     }
   }
 }

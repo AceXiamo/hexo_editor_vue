@@ -2,15 +2,17 @@
   <div class="shuo">
     <div class="background-filter"></div>
     <canvas id="yuki"></canvas>
-    <div class="scroll orange-white-scroll" @scroll="scrollChange">
+    <div class="scroll orange-white-scroll">
       <div class="content">
         <div class="left">
           <div :class="['user']">
             <div class="top">
-              <div class="user-img"></div>
+              <div class="user-img">
+                <img src="https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png"  alt="" />
+              </div>
               <div class="user-info">
-                <img src="https://qwq.link/images/avatar.jpg" alt="">
-                <span>浅末saki</span>
+                <img :src="info.avatar" alt="">
+                <span>{{ info.nickname }}</span>
               </div>
             </div>
             <div class="bottom">
@@ -21,14 +23,14 @@
               <div class="user-config">
                 <div class="row">
                   <div>昵称:</div>
-                  <input type="text"/>
+                  <input type="text" v-model="info.nickname"/>
                 </div>
                 <div class="row">
                   <div>key:</div>
-                  <input type="text"/>
+                  <input type="text" v-model="info.userKey"/>
                 </div>
                 <div class="save-btn">
-                  <div>保 存</div>
+                  <div @click="saveUser()">保 存</div>
                 </div>
               </div>
             </div>
@@ -40,18 +42,27 @@
                       :class="['area-content', 'blue-white-scroll', content?'area-content-focus':'']"></textarea>
             <span class="title">你指尖跃动的电光，是我此生不灭的信仰...</span>
             <div class="images-scale">
-              <div class="item" v-for="index of 6">
-                <div class="img"><img src="https://qwq.link/images/avatar.jpg" alt=""/></div>
+              <div class="item" v-for="(img,index) in fileList" :key="index">
+                <div class="img"><img :src="img.status?img.url:uploadGif" alt=""/></div>
               </div>
               <div class="item">
                 <div class="img-sel">
+                  <input type="file" @change="uploadChange"/>
                   <font-awesome-icon :icon="['fas', 'plus']"/>
                 </div>
               </div>
             </div>
-            <div class="sub"><span>发 送</span></div>
+            <div class="sub"><span @click="submit">发 送</span></div>
           </div>
-          <div class="his-content" v-for="(data,index) in list" :key="index">
+          <transition name="s-zero-ani">
+            <div :class="['list-size-0']" v-if="zero">
+              <canvas id="nos"></canvas>
+              <span>快发布第一条说说吧!</span>
+              <img src="https://alioss.xiamoqwq.com/anime_pic/hutao.png" alt=""/>
+            </div>
+          </transition>
+          <div :class="['his-content', 'his-hide', showIndex >= index?'his-show':'', 'shuo'+index]"
+               v-for="(data,index) in list">
             <div class="user">
               <div class="left">
                 <img alt="" :src="data.avatar"/>
@@ -72,10 +83,51 @@
               </div>
             </div>
           </div>
+          <div class="his-content his-end">
+            <img @click="toTop" :class="[scrollV > 0?'to-top':'']" src="https://alioss.xiamoqwq.com/插画/kaili.png"
+                 alt=""/>
+            <div class="msg-bubble">
+<!--              <span>やばいですね</span>-->
+              <span>牙 白 得 死 内!!!</span>
+              <span>要返回顶部吗?</span>
+            </div>
+          </div>
         </div>
         <div class="right">
           <div class="message">
-            <img src="https://alioss.xiamoqwq.com/gif/41c4d0a159b80ec48e50a26de1374041.gif">
+            <div class="api-content">
+              <div class="content-row">
+                <div class="api-content-title">
+                  <span>#</span>
+                  <span>Tree</span>
+                </div>
+                <div class="url">
+                  https://tree.qwq.link
+                </div>
+              </div>
+              <div class="content-row">
+                <div class="api-content-title">
+                  <span>#</span>
+                  <span>API地址</span>
+                </div>
+                <div class="code">
+                  https://tree.qwq.link/api/tbShuoshuo/list
+                </div>
+              </div>
+              <div class="content-row">
+                <div class="params-title">
+                  <span>#</span>
+                  <span>Params</span>
+                </div>
+                <div class="params-item">
+                  <span>userId</span>
+                  <span>{{ info.id }}</span>
+                </div>
+              </div>
+            </div>
+            <div class="end">
+              <img src="https://alioss.xiamoqwq.com/gif/41c4d0a159b80ec48e50a26de1374041.gif">
+            </div>
           </div>
         </div>
       </div>
@@ -89,39 +141,164 @@ export default {
   data() {
     return {
       info: {
-        img: "https://xiamo.oss-accelerate.aliyuncs.com/xiamo_avatar/202112221049337302542.jpg",
-        nickname: "xiamo",
-        key: "8622a994c2bc48b884b43b261f46495a"
+        avatar: "",
+        nickname: "",
+        userKey: ""
       },
       content: "",
       scrollV: 0,
-      apiUrl: "https://tree.qwq.link/api/tbShuoshuo/list",
+      apiUrl: "shuo_api/tbShuoshuo/list",
+      apiUser: "shuo_api/tbUser/update",
+      apiUserAdd: "shuo_api/tbUser/genAuth",
+      apiSub: "shuo_api/tbShuoshuo/addSS",
       params: {
         offset: 0,
         limit: 100,
-        userId: 22,
       },
-      list: []
+      list: [],
+      windowHeight: window.innerHeight,
+      showIndex: -1,
+      fileList: [],
+      ossHost: "https://alioss.xiamoqwq.com/",
+      uploadGif: "https://xiamo.oss-accelerate.aliyuncs.com/xiamo_avatar/2022021110100804966854.gif",
+      zero: false,
     };
   },
-  mounted() {
-    this.$yuki();
-    this.loadShuo();
+  async mounted() {
+    await this.initUser();
+    await this.loadShuo();
+    await this.initList();
+    this.scrollListen();
   },
   methods: {
-    scrollChange(e) {
-      // 距离顶部的高度
-      this.scrollV = e.target.scrollTop;
+    async submit() {
+      if (!this.content) {
+        this.$xmMessage.error("请先输入说说内容!");
+        return
+      }
+      let data = {};
+      data.userKey = this.info.userKey;
+      data.text = this.content;
+      data.images = "";
+      if (this.fileList && this.fileList.length > 0) {
+        this.fileList.forEach(v => {
+          data.images += v.url + ",";
+        })
+        data.images = data.images.substring(0, data.images.length - 1);
+      }
+      let res = await this.$axios.post(this.apiSub, data);
+      if (res.data.code === 200) {
+        this.content = "";
+        this.fileList = [];
+        this.$xmMessage.success("发布成功!");
+        await this.loadShuo();
+        await this.initList();
+      } else {
+        this.$xmMessage.error("服务报错啦!");
+      }
     },
-    loadShuo(){
-      this.$axios.get(this.apiUrl, {
-        params: this.params
-      }).then(res => {
-        this.list = res.data.data;
+    async uploadChange(e) {
+      let file = e.target.files[0];
+      let date = new Date();
+      let path = "/shuo";
+      path += "/" + date.getFullYear();
+      path += "/" + (date.getMonth() + 1);
+      path += "/" + date.getDate();
+      let data = {};
+      data.url = "";
+      data.status = false;
+      this.fileList.push(data)
+      let res = await this.$globalUploadFile(file, path)
+      data.status = true;
+      data.url = this.ossHost + res.name;
+    },
+    toTop() {
+      let scroll = document.querySelector('.scroll');
+      // 滚动条的初始位置
+      let initTop = scroll.scrollTop;
+      // 定时器运行间隔, 结束时间
+      let intervalMS = 10, endMS = 500;
+      let one = initTop * intervalMS / endMS;
+
+      let interval;
+      let interF = () => {
+        initTop -= one;
+        scroll.scrollTop = initTop;
+        if (initTop <= 0) clearInterval(interval)
+      }
+      interval = setInterval(interF, intervalMS)
+    },
+    initList() {
+      let last = 0;
+      for (let i = 0; i <= this.list.length - 1; i++) {
+        let s = document.querySelector('.shuo' + i);
+        if (s.offsetTop <= this.windowHeight) {
+          last = i;
+        }
+      }
+      let interval = setInterval(() => {
+        this.showIndex++;
+        if (this.showIndex >= last) {
+          clearInterval(interval);
+        }
+      }, 100)
+    },
+    scrollListen() {
+      window.addEventListener("scroll", (e) => {
+        let scroll = document.querySelector('.scroll');
+        if (scroll) {
+          this.scrollV = scroll.scrollTop;
+          this.indexHandle(this.showIndex, scroll.scrollTop + this.windowHeight)
+        }
+      }, true)
+    },
+    indexHandle(index, scrollV) {
+      if (index < this.list.length - 1) {
+        index++
+        let s = document.querySelector('.shuo' + index);
+        if (s.offsetTop <= scrollV) {
+          this.indexHandle(index, scrollV)
+        } else {
+          this.showIndex = index - 1;
+        }
+      } else {
+        this.showIndex = index;
+      }
+    },
+    async initUser() {
+      let user = this.$cookie.get("shuoUser");
+      if (user) {
+        this.info = user
+      } else {
+        let res = await this.$axios.get(this.apiUserAdd)
+        this.info = res.data.data
+        this.$cookie.set("shuoUser", this.info);
+      }
+    },
+    saveUser() {
+      this.$axios.post(this.apiUser, this.info).then(res => {
+        if (res.data.code != 200) {
+          this.$xmMessage.error(res.data.msg);
+        } else {
+          this.$xmMessage.success("修改成功!");
+          this.info = res.data.data;
+          // 更新缓存
+          this.$cookie.set("shuoUser", this.info);
+        }
       })
+    },
+    async loadShuo() {
+      this.showIndex = -1;
+      this.params.userId = this.info.id;
+      let res = await this.$axios.get(this.apiUrl, {
+        params: this.params
+      })
+      this.list = res.data.data;
+      this.zero = !this.list || this.list.length < 1;
     }
   }
-};
+}
+;
 </script>
 
 <style lang="scss" scoped>

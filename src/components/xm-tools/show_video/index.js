@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import ShowVideo from "./ShowVideo"
+import ShowVideo from "./show_video"
 
 // 构造Vue实例
 let vueEl = Vue.extend(ShowVideo);
