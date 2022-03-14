@@ -6,7 +6,10 @@ let client = {};
 
 const ossConfig = function () {
   let ali = localStorage.getItem("ali");
-  if (!ali || ali === "{}") return
+  if (!ali || ali === "{}") {
+    console.log("%cOSS未配置!", "color: #70C5B3")
+    return
+  }
   ali = JSON.parse(ali);
   // 加载oss相关配置
   client = new OSS(ali);

@@ -17,6 +17,7 @@ const utils = function () {
     }
     return index;
   }
+
   /*
 * 传入后缀生成文件名
 * 年月日时分秒 + 五伪随机数 + 后缀
@@ -24,12 +25,22 @@ const utils = function () {
 * suffix  后缀
 * */
   Vue.prototype.$genFileName = function (suffix) {
+    return this.$genId() + "." + suffix;
+  }
+
+  /*
+* 传入后缀生成文件名
+* 年月日时分秒 + 五伪随机数 + 后缀
+*
+* suffix  后缀
+* */
+  Vue.prototype.$genId = function () {
     let time = new Date();
     let monthStr = time.getMonth() + 1;
     monthStr = monthStr < 10 ? "0" + monthStr : "" + monthStr;
     let timeStr = time.getFullYear().toString() + monthStr + time.getDate().toString() + time.getHours().toString()
       + time.getMinutes().toString() + time.getSeconds().toString();
-    return timeStr + this.$genRandom(10000, 99999) + "." + suffix;
+    return timeStr + this.$genRandom(10000, 99999);
   }
 
   /*
@@ -140,6 +151,30 @@ const utils = function () {
   Vue.prototype.$ossWebP = function (url) {
     let suffix = "?x-oss-process=image/format,webp#";
     return url + suffix;
+  };
+  Vue.prototype.$isUrl = function (str_url) {
+    let urlRegex = /(^(http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/;
+    let re = new RegExp(urlRegex);
+    return re.test(str_url);
+  }
+  Vue.prototype.$dateFormat = function (fmt, date) {
+    let ret;
+    const opt = {
+      "Y+": date.getFullYear().toString(),        // 年
+      "m+": (date.getMonth() + 1).toString(),     // 月
+      "d+": date.getDate().toString(),            // 日
+      "H+": date.getHours().toString(),           // 时
+      "M+": date.getMinutes().toString(),         // 分
+      "S+": date.getSeconds().toString()          // 秒
+      // 有其他格式化字符需求可以继续添加，必须转化成字符串
+    };
+    for (let k in opt) {
+      ret = new RegExp("(" + k + ")").exec(fmt);
+      if (ret) {
+        fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+      };
+    };
+    return fmt;
   }
 }
 

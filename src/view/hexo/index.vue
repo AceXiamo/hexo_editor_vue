@@ -3,13 +3,13 @@
     <div class="content">
       <div class="file" ref="leftFile">
         <div class="logo" style="display: none">
-          <img src="@/assets/qwq-logo.png" />
+          <img src="@/assets/qwq-logo.png"/>
         </div>
         <div class="file-url">
           <span>
             <div @click="urlEdit">
-              <font-awesome-icon :icon="['fas', 'angle-double-right']" />
-              <font-awesome-icon :icon="['fas', 'cog']" />
+              <font-awesome-icon :icon="['fas', 'angle-double-right']"/>
+              <font-awesome-icon :icon="['fas', 'cog']"/>
             </div>
             <div class="url-item">
               <div class="wheel-bar" ref="urlScroll">
@@ -18,7 +18,7 @@
                   :key="i"
                   v-show="f"
                   @click="to(i)"
-                  >{{ f }}</span
+                >{{ f }}</span
                 >
               </div>
             </div>
@@ -54,34 +54,36 @@
         <div class="options-handle"></div>
         <transition name="bottom-in-50">
           <span @click="delShow()" class="btn" v-if="fileName">
-            <font-awesome-icon :icon="['fas', 'trash-alt']" />
+            <span class="remove options-btn">
+              <font-awesome-icon :icon="['fas', 'trash-alt']"/>
+            </span>
             <div class="tip">
-              <img :src="tipImg" /><span>要删除这篇文章吗！</span>
+              <img :src="tipImg"/><span>要删除这篇文章吗！</span>
             </div>
           </span>
         </transition>
         <span @click="newBlog()" class="btn">
           <span class="edit options-btn">
-            <font-awesome-icon :icon="['fas', 'pencil-alt']" />
+            <font-awesome-icon :icon="['fas', 'pencil-alt']"/>
           </span>
           <div class="tip">
-            <img :src="tipImg" /><span>要写一篇新的文章吗！</span>
+            <img :src="tipImg"/><span>要写一篇新的文章吗！</span>
           </div>
         </span>
         <span @click="save()" class="btn">
           <span class="save options-btn">
-            <font-awesome-icon :icon="['fas', 'check']" />
+            <font-awesome-icon :icon="['fas', 'check']"/>
           </span>
           <div class="tip">
-            <img :src="tipImg" /><span>修改后需要保存！</span>
+            <img :src="tipImg"/><span>修改后需要保存！</span>
           </div>
         </span>
         <span @click="showLogOut()" class="btn">
           <span class="login-out options-btn">
-            <font-awesome-icon :icon="['fas', 'power-off']" />
+            <font-awesome-icon :icon="['fas', 'power-off']"/>
           </span>
           <div class="tip">
-            <img :src="tipImg" /><span>要退出登陆吗？</span>
+            <img :src="tipImg"/><span>要退出登陆吗？</span>
           </div>
         </span>
       </div>
@@ -90,17 +92,17 @@
       <div class="file-set" v-if="showUrlEdit">
         <div class="title">
           <span>
-            <font-awesome-icon :icon="['fas', 'snowflake']" />
+            <font-awesome-icon :icon="['fas', 'snowflake']"/>
             <span>{{ tipText }}</span>
             <span> _</span>
           </span>
           <div>
-            <input type="text" v-model="fileUrl" />
+            <input type="text" v-model="fileUrl"/>
             <div @click="saveUrl">OK !</div>
           </div>
         </div>
         <div @click="showUrlEdit = false" class="close-edit">
-          <font-awesome-icon :icon="['fas', 'times-circle']" />
+          <font-awesome-icon :icon="['fas', 'times-circle']"/>
         </div>
       </div>
     </transition>
@@ -108,12 +110,12 @@
       <div class="file-set name-set" v-if="showNameEdit">
         <div class="title">
           <span>
-            <font-awesome-icon :icon="['fas', 'broom']" />
+            <font-awesome-icon :icon="['fas', 'broom']"/>
             <span>{{ tipText2 }}</span>
             <span> _</span>
           </span>
           <div>
-            <input type="text" v-model="fileName" />
+            <input type="text" v-model="fileName"/>
             <div @click="createFile">OK !</div>
           </div>
         </div>
@@ -126,7 +128,7 @@
       <div class="del-dialog" v-if="delConfirm">
         <div>
           <span>
-            <font-awesome-icon :icon="['fas', 'exclamation-circle']" />
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']"/>
             <span>{{ tipText3 }}</span>
             <span> _</span>
           </span>
@@ -145,16 +147,16 @@
       <div class="del-dialog" v-if="logOutConfirm">
         <div>
           <span>
-            <font-awesome-icon :icon="['fas', 'exclamation-circle']" />
+            <font-awesome-icon :icon="['fas', 'exclamation-circle']"/>
             <span>{{ tipText4 }}</span>
             <span> _</span>
           </span>
           <div>
             <div class="close" @click="logOutConfirm = false">
-              <font-awesome-icon :icon="['fas', 'times']" />
+              <font-awesome-icon :icon="['fas', 'times']"/>
             </div>
             <div class="ok" @click="logOut">
-              <font-awesome-icon :icon="['fas', 'check']" />
+              <font-awesome-icon :icon="['fas', 'check']"/>
             </div>
           </div>
         </div>
@@ -216,7 +218,8 @@ export default {
       this.domInit();
     });
   },
-  mounted() {},
+  mounted() {
+  },
   methods: {
     wheelHandle() {
       let fileDom = document.querySelector(".wheel-bar");
@@ -267,7 +270,7 @@ export default {
       this.loadFile();
     },
     async loadFile() {
-      files({ url: this.fileUrl }).then(res => {
+      files({url: this.fileUrl}).then(res => {
         if (this.verifyRes(res)) {
           return;
         }
@@ -275,7 +278,7 @@ export default {
       });
     },
     async readFile(data) {
-      readFile({ url: this.fileUrl + data.file_name }).then(res => {
+      readFile({url: this.fileUrl + data.file_name}).then(res => {
         if (this.verifyRes(res)) {
           this.fileName = "";
           return;

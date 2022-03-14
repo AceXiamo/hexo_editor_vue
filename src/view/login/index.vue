@@ -53,13 +53,15 @@ export default {
               username: this.username,
               password: this.password
             });
-            localStorage.setItem("ali", JSON.stringify({
-              accessKeyId: res.data.ali.AccessKeyId,
-              accessKeySecret: res.data.ali.AccessKeySecret,
-              bucket: res.data.ali.Bucket,
-              ossHost: res.data.ali.OssHost,
-              region: res.data.ali.Region
-            }))
+            if (res.data.ali) {
+              localStorage.setItem("ali", JSON.stringify({
+                accessKeyId: res.data.ali.AccessKeyId,
+                accessKeySecret: res.data.ali.AccessKeySecret,
+                bucket: res.data.ali.Bucket,
+                ossHost: res.data.ali.OssHost,
+                region: res.data.ali.Region
+              }))
+            }
             // 初始化阿里云OSS
             this.$AliOSSInit();
             this.$xmMessage.success("登陆成功~");

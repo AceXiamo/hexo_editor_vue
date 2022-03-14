@@ -4,7 +4,7 @@ import hexo from '@/view/hexo/index'
 import login from '@/view/login/index'
 import shuo from '@/view/shuo/index'
 import image from '@/view/image/index'
-import cover from '@/view/cover/index'
+import cover  from '@/view/cover/index'
 import cookie from 'vue-cookies'
 
 Vue.use(Router)

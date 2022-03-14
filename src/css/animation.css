@@ -71,3 +71,29 @@
   opacity: 0;
   transition: all 0.5s;
 }
+.fade-enter-active,
+.fade-leave-active {
+  position: absolute;
+  top: 0;
+  z-index: 1;
+  transform: translateX(0);
+  transition: all 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+  position: absolute;
+  opacity: 0;
+  transform: translateX(-10%);
+}
+.fade-ani-enter-active,
+.fade-ani-leave-active {
+  opacity: 1;
+  transition: all 0.5s;
+}
+.fade-ani-enter,
+.fade-ani-leave-to {
+  position: absolute;
+  top: 0;
+  opacity: 0;
+  transition: all 0.5s;
+}

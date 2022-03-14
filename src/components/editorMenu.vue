@@ -1,11 +1,11 @@
 <template>
-  <div class="menu-bar">
+  <div :class="['menu-bar', hide?'hide':'']">
     <span
       :class="[item.class, active == item.class ? 'menu-active' : '']"
       v-for="(item, i) in menu"
       @click="to(item.path)"
       :key="i"
-      >{{ item.name }}</span
+    >{{ item.name }}</span
     >
   </div>
 </template>
@@ -13,6 +13,7 @@
 <script>
 export default {
   name: "editor-menu",
+  props: ['hide'],
   data() {
     return {
       active: "",
@@ -56,13 +57,21 @@ export default {
 };
 </script>
 <style lang="scss" scoped>
+.hide {
+  opacity: 0 !important;
+  transition: all .5s;
+}
+
 .menu-bar {
   position: absolute;
   left: 30px;
   bottom: 0;
   z-index: 99;
+  opacity: 1;
+  transition: all .5s;
 
   $bottom: 15px;
+
   > span {
     padding: 5px 10px 5px 10px;
     color: white;
@@ -74,26 +83,32 @@ export default {
     bottom: 5px;
     cursor: default;
     transition: all 0.2s;
+
     &:hover {
       transition: all 0.2s;
       padding-bottom: $bottom;
       bottom: $bottom;
     }
   }
+
   .menu-active {
     transition: all 0.2s;
     padding-bottom: $bottom;
     bottom: $bottom;
   }
+
   .hexo {
     background-color: #00caff;
   }
+
   .cover {
     background-color: #efad70;
   }
+
   .shuo {
     background-color: #eba2e6;
   }
+
   .image {
     background-color: #48c088;
   }

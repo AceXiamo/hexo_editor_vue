@@ -78,7 +78,8 @@ export default {
 
     img {
       margin: 0 15px;
-      width: 500px;
+      max-width: 1000px;
+      max-height: 800px;
     }
   }
 }

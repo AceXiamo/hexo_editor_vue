@@ -57,7 +57,7 @@ export default {
   .tips {
     display: inline-flex;
     min-width: 170px;
-    max-width: 500px;
+    //max-width: 500px;
     min-height: 25px;
     justify-content: start;
     align-items: center;
@@ -73,10 +73,12 @@ export default {
       flex: 9;
       color: white;
       font-size: 14px;
+      white-space: nowrap;
     }
     > i {
       flex: 1;
       color: white;
+      margin-right: 10px;
     }
   }
   .success {
