@@ -51,7 +51,8 @@ export default {
             this.$cookie.set("token", res.data.code);
             this.$cookie.set("user", {
               username: this.username,
-              password: this.password
+              password: this.password,
+              shuo: res.data.shuo
             });
             if (res.data.ali) {
               localStorage.setItem("ali", JSON.stringify({

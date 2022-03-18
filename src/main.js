@@ -32,6 +32,10 @@ Vue.config.productionTip = false
 import cookie from 'vue-cookies'
 Vue.prototype.$cookie = cookie
 
+// session
+import VueSession from 'vue-session'
+Vue.use(VueSession)
+
 // xm-tools
 import './components/xm-tools/tools'
 import './components/xm-tools/css/global.scss'

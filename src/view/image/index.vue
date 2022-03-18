@@ -52,7 +52,7 @@
       </div>
     </div>
     <div class="info blue-white-scroll">
-      <image-area :images="list" :lineNum="4" urlKey="url"></image-area>
+      <anime-area :images="list" :lineNum="7" urlKey="url" ref="imgArea"></anime-area>
     </div>
     <div :class="['load', loading?'load-show':'']">
       <div class="border">
@@ -131,16 +131,19 @@
         </div>
       </div>
     </transition>
+    <menu-sec :class-name="'item'" :img-index="imgIndex"></menu-sec>
   </div>
 </template>
 
 <script>
-import ImageArea from "@/components/xm-tools/image_area/imageArea";
+import animeArea from "./animeArea";
 import {pixivInfo, toByte, list, save, imageInfo, del} from "@/js/api/pixiv";
+import MenuSec from "./menuSec";
+import ImageArea from "../../components/xm-tools/image_area/imageArea";
 
 export default {
   name: "assets",
-  components: {ImageArea},
+  components: {ImageArea, MenuSec, animeArea},
   data() {
     return {
       defaultImg: "https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2022/03/20220307152150653.png?x-oss-process=image/resize,m_fill,w_2048,h_879/format,webp#",
@@ -168,8 +171,9 @@ export default {
       ossHost: "",
       query: {
         page: 1,
-        size: 9
-      }
+        size: 35
+      },
+      imgIndex: -1,
     };
   },
   mounted() {
@@ -181,6 +185,16 @@ export default {
     this.scrollListen();
   },
   methods: {
+    copy(url) {
+      const input = document.createElement("input"); // 构建input
+      input.value = url; // 设置内容
+      console.log(input.value);
+      document.body.appendChild(input); // 添加临时实例
+      input.select(); // 选择实例内容
+      document.execCommand("Copy"); // 执行复制
+      document.body.removeChild(input); // 删除临时实例
+      this.$xmMessage.success("复制成功！");
+    },
     async imageInfo() {
       if (!this.pixivUrl || !this.$isUrl(this.pixivUrl)) {
         this.$xmMessage.error("Pixiv路径错误!")
@@ -207,7 +221,7 @@ export default {
         break
       }
       let res;
-        this.pixivUser = this.info.user[userKey];
+      this.pixivUser = this.info.user[userKey];
       this.pixivUser.homeUrl = "https://www.pixiv.net/users/" + this.pixivUser.userId
       // p0的url路径，根据此路径和 pageCount, 拼接出其它p的url
       let p0 = pixiv.urls.original;
@@ -259,7 +273,9 @@ export default {
       let res = await list(this.query);
       if (!res.data || res.data.length < 1) this.query.page--;
       this.list.push(...res.data);
-      this.loading = false;
+      setTimeout(() => {
+        this.loading = false;
+      }, 500)
     },
     async save() {
       this.loading = true;

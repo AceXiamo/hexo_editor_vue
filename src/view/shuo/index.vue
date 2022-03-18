@@ -8,7 +8,7 @@
           <div :class="['user']">
             <div class="top">
               <div class="user-img">
-                <img src="https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png"  alt="" />
+                <img src="https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png" alt=""/>
               </div>
               <div class="user-info">
                 <img :src="info.avatar" alt="">
@@ -87,7 +87,7 @@
             <img @click="toTop" :class="[scrollV > 0?'to-top':'']" src="https://alioss.xiamoqwq.com/插画/kaili.png"
                  alt=""/>
             <div class="msg-bubble">
-<!--              <span>やばいですね</span>-->
+              <!--              <span>やばいですね</span>-->
               <span>牙 白 得 死 内!!!</span>
               <span>要返回顶部吗?</span>
             </div>
@@ -136,6 +136,8 @@
 </template>
 
 <script>
+import {saveSKey} from "@/js/api/user";
+
 export default {
   name: "shuo",
   data() {
@@ -266,17 +268,36 @@ export default {
       }
     },
     async initUser() {
-      let user = this.$cookie.get("shuoUser");
-      if (user) {
-        this.info = user
+      let sUser = this.$cookie.get("shuoUser");
+      if (sUser) {
+        this.info = sUser
       } else {
-        let res = await this.$axios.get(this.apiUserAdd)
-        this.info = res.data.data
-        this.$cookie.set("shuoUser", this.info);
+        let user = this.$cookie.get("user");
+        if (user.shuo === 'default_key_shuo') {
+          // add
+          let res = await this.$axios.get(this.apiUserAdd)
+          this.info = res.data.data
+          this.$cookie.set("shuoUser", this.info);
+          await this.updateKey(this.info.userKey, 'default_key_shuo');
+        } else {
+          // update
+          this.info.userKey = user.shuo;
+          this.info.avatar = "1";
+          this.info.nickname = "1";
+          let res = await this.$axios.post(this.apiUser, this.info)
+          this.info = res.data.data;
+          // 更新缓存
+          this.$cookie.set("shuoUser", this.info);
+        }
       }
     },
-    saveUser() {
-      this.$axios.post(this.apiUser, this.info).then(res => {
+    async updateKey(key, oldKey) {
+      let res = await saveSKey({key: key, oldKey: oldKey})
+      if (res.code === 200) console.log("%c说说用户标识更新成功!", "color: #70C5B3")
+    },
+    async saveUser() {
+      let oldKey = this.$cookie.get("shuoUser").userKey;
+      this.$axios.post(this.apiUser, this.info).then(async res => {
         if (res.data.code != 200) {
           this.$xmMessage.error(res.data.msg);
         } else {
@@ -284,6 +305,11 @@ export default {
           this.info = res.data.data;
           // 更新缓存
           this.$cookie.set("shuoUser", this.info);
+          if(this.info.userKey !== oldKey){
+            this.updateKey(this.info.userKey, oldKey);
+            await this.loadShuo()
+            await this.initList()
+          }
         }
       })
     },

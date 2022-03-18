@@ -134,10 +134,10 @@
           </span>
           <div>
             <div class="close" @click="delConfirm = false">
-              <icon type="times"></icon>
+              <font-awesome-icon :icon="['fas', 'times']"/>
             </div>
             <div class="ok" @click="removeFile">
-              <icon type="check"></icon>
+              <font-awesome-icon :icon="['fas', 'check']"/>
             </div>
           </div>
         </div>
@@ -173,6 +173,7 @@ import {
   removeFile,
   createFile
 } from "@/js/api/file";
+import MenuSec from "../image/menuSec";
 
 export default {
   name: "index",
@@ -220,7 +221,13 @@ export default {
   },
   mounted() {
   },
+  beforeDestroy(){
+    this.destroyHandle();
+  },
   methods: {
+    destroyHandle(){
+      this.$session.set('markdown_content', this.markdown);
+    },
     wheelHandle() {
       let fileDom = document.querySelector(".wheel-bar");
       fileDom.addEventListener("wheel", event => {
@@ -238,6 +245,10 @@ export default {
         this.fileUrl = fileUrl;
         this.loadFile();
       }
+
+      // 判断session中是否有保存markdown内容，如果有则进行赋值
+      let markdown_content = this.$session.get('markdown_content');
+      if(markdown_content) this.markdown = markdown_content
     },
     domInit() {
       // 用于固定侧栏宽度
@@ -433,6 +444,7 @@ export default {
       // this.$cookie.remove("fileUrl");
       this.$cookie.remove("token");
       this.$cookie.remove("user");
+      this.$cookie.remove("shuoUser");
       this.$router.push("/login");
       localStorage.removeItem("ali");
     }
