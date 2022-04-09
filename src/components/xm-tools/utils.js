@@ -175,6 +175,16 @@ const utils = function () {
       };
     };
     return fmt;
+  },
+  Vue.prototype.$copyUrl = function(url){
+    const input = document.createElement("input"); // 构建input
+    input.value = url; // 设置内容
+    console.log(input.value);
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand("Copy"); // 执行复制
+    document.body.removeChild(input); // 删除临时实例
+    this.$xmMessage.success("复制成功！");
   }
 }
 

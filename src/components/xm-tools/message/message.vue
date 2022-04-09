@@ -3,9 +3,10 @@
     <transition-group name="message-ani">
       <div
         :class="['tips', data.type]"
-        v-show="data.show"
+        v-if="data.show"
         v-for="data in arr"
         :key="data.id"
+        :style="{'top': data.topV + 'px'}"
       >
         <i>
           <svg
@@ -32,8 +33,39 @@ export default {
       arr: []
     };
   },
+  watch: {
+
+  },
   mounted() {},
-  methods: {}
+  methods: {
+    show(type, msg){
+      let arr = [];
+      this.arr.forEach(v => {
+        if (v.show) arr.push(v)
+      })
+      this.arr = arr;
+      let time = new Date()
+      let msgData = {
+        msg: msg,
+        type: type,
+        show: true,
+        id: time.getTime(),
+        topV: this.arr.length * 71,
+      }
+      this.arr.push(msgData);
+      setTimeout(() => {
+        this.hide(msgData);
+      }, 3000)
+    },
+    hide(msgData){
+      msgData.show = false;
+      if(this.arr.length > 0){
+        this.arr.forEach(v => {
+          v.topV -= 71;
+        })
+      }
+    },
+  }
 };
 </script>
 <style lang="scss" scoped>
@@ -48,6 +80,7 @@ export default {
   text-align: center;
   animation: enter 0.5s forwards;
   z-index: 999;
+  transition: height .2s;
   > span {
     display: flex;
     flex-direction: column;
@@ -67,7 +100,7 @@ export default {
     padding: 10px 10px;
     line-height: 23px;
     margin-bottom: 20px;
-    position: relative;
+    position: absolute;
     box-shadow: 0 3px 10px rgba(153, 204, 102, 0.5);
     > span {
       flex: 9;

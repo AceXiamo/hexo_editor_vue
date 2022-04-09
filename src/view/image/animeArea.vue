@@ -1,15 +1,41 @@
 <template>
   <div class="animeArea">
     <div class="images-scale">
-      <div class="item"
-           @contextmenu.prevent="$parent.imgIndex = index"
-           :style="{'width': 'calc(100% / '+lineNum+')', 'padding-bottom': 'calc(100% / '+lineNum+')'}"
-           v-for="(url,index) in images">
-        <div :class="['img', ani?'img-hover':'']">
-          <font-awesome-icon @mouseenter="ani = true" @mouseleave="ani = false" v-if="showDel" @click="del(url)"
-                             class="del-icon" :icon="['fas', 'circle-xmark']"/>
-          <img @error="imgErr" v-if="urlKey" :src="url[urlKey] + suffix" @click="imgShow(url[urlKey])" :key="url[urlKey]" alt=""/>
-          <img @error="imgErr" v-else :src="url + suffix" @click="imgShow(url)" :key="url" alt=""/>
+      <div
+        class="item"
+        @contextmenu.prevent="$parent.imgIndex = index"
+        :style="{
+          width: 'calc(100% / ' + lineNum + ')',
+          'padding-bottom': 'calc(100% / ' + lineNum + ')',
+        }"
+        v-for="(url, index) in images"
+        :key="index"
+      >
+        <div :class="['img', ani ? 'img-hover' : '']">
+          <font-awesome-icon
+            @mouseenter="ani = true"
+            @mouseleave="ani = false"
+            v-if="showDel"
+            @click="del(url)"
+            class="del-icon"
+            :icon="['fas', 'circle-xmark']"
+          />
+          <img
+            @error="imgErr"
+            v-if="urlKey"
+            :src="url[urlKey] + suffix"
+            @click="imgShow(url[urlKey])"
+            :key="url[urlKey]"
+            alt=""
+          />
+          <img
+            @error="imgErr"
+            v-else
+            :src="url + suffix"
+            @click="imgShow(url)"
+            :key="url"
+            alt=""
+          />
         </div>
       </div>
     </div>
@@ -21,14 +47,14 @@ import MenuSec from "./menuSec";
 
 export default {
   name: "animeArea",
-  components: {MenuSec},
-  props: ['images', 'lineNum', 'showDel', 'urlKey'],
+  components: { MenuSec },
+  props: ["images", "lineNum", "showDel", "urlKey"],
   data() {
     return {
       ani: false,
-      suffix: "?x-oss-process=image/resize,m_fill,w_200,h_200/format,webp",
-      gif: 'https://alioss.xiamoqwq.com/gif/9080607321ab98fa3e70dd24b2513a20.gif',
-    }
+      suffix: "?x-oss-process=image/resize,m_fill,w_400,h_400/format,webp",
+      gif: "https://alioss.xiamoqwq.com/gif/9080607321ab98fa3e70dd24b2513a20.gif",
+    };
   },
   methods: {
     imgShow(url) {
@@ -36,12 +62,13 @@ export default {
         this.$ShowImage(url);
       }
     },
-    imgErr(e){
+    imgErr(e) {
       let img = e.target;
-      img.src = "https://xiamo.oss-accelerate.aliyuncs.com/xiamo_avatar/2022021110100804966854.gif"
-    }
-  }
-}
+      img.src =
+        "https://xiamo.oss-accelerate.aliyuncs.com/xiamo_avatar/2022021110100804966854.gif";
+    },
+  },
+};
 </script>
 
 <style scoped lang="scss">
@@ -61,8 +88,8 @@ export default {
       position: relative;
 
       .img-hover {
-        animation: del-ani .35s infinite !important;
-        transition: all .5s;
+        animation: del-ani 0.35s infinite !important;
+        transition: all 0.5s;
       }
 
       .img {
@@ -76,10 +103,10 @@ export default {
         justify-content: center;
         align-items: center;
         animation: unset;
-        transition: all .5s;
+        transition: all 0.5s;
 
         .del-icon {
-          color: #FFD779;
+          color: #ffd779;
           position: absolute;
           top: 0;
           right: 0;
@@ -108,7 +135,7 @@ export default {
         margin: 10px;
         color: #bdc0c5;
 
-        > input[type='file'] {
+        > input[type="file"] {
           opacity: 0;
           position: absolute;
           top: 0;
