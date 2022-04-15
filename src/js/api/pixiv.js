@@ -47,3 +47,10 @@ export function del(data) {
     params: data
   });
 }
+
+export function auth() {
+  return request({
+    url: '/api/pixiv/auth',
+    method: 'get'
+  });
+}

@@ -24,14 +24,11 @@
         <div class="type-border">
           <div class="transition">
             <div class="type-list">
-              <div>ALL</div>
-              <div>40原</div>
-              <div>甘城なつき</div>
-              <div>Miloecute</div>
+              <div v-if="index < 10" v-for="(data, index) in author">{{ data.nick }}</div>
             </div>
             <div class="check-list">
               <div>
-                <font-awesome-icon :icon="['fas', 'check']" />
+                <font-awesome-icon :icon="['fas', 'check']"/>
               </div>
             </div>
           </div>
@@ -41,14 +38,14 @@
     <div class="right-content">
       <div class="item">
         <div>
-          <font-awesome-icon :icon="['fas', 'code']" />
+          <font-awesome-icon :icon="['fas', 'code']"/>
         </div>
         <span>API</span>
       </div>
     </div>
     <div class="upload">
       <div class="border" @click="uploadShow = true">
-        <font-awesome-icon :icon="['fas', 'upload']" />
+        <font-awesome-icon :icon="['fas', 'upload']"/>
       </div>
     </div>
     <div class="info blue-white-scroll">
@@ -61,7 +58,7 @@
     </div>
     <div :class="['load', loading ? 'load-show' : '']">
       <div class="border">
-        <font-awesome-icon :icon="['fas', 'spinner']" />
+        <font-awesome-icon :icon="['fas', 'spinner']"/>
       </div>
     </div>
     <div :class="['mask', loading ? 'mask-show' : '']"></div>
@@ -70,7 +67,7 @@
         <div class="upload-mask"></div>
         <div class="upload-content" @click.stop>
           <div class="title">
-            <span><font-awesome-icon :icon="['fas', 'fire']" />Upload</span>
+            <span><font-awesome-icon :icon="['fas', 'fire']"/>Upload</span>
             <div>
               <font-awesome-icon
                 @click="close()"
@@ -83,7 +80,7 @@
               <div class="first" ref="first" v-if="firstShow">
                 <div :class="['border', loadPixivInfo ? 'border-hide' : '']">
                   <div>
-                    <font-awesome-icon :icon="['fas', 'file-image']" />
+                    <font-awesome-icon :icon="['fas', 'file-image']"/>
                   </div>
                   <div>or</div>
                   <div>
@@ -95,7 +92,7 @@
                   </div>
                 </div>
                 <div :class="['load', loadPixivInfo ? 'load-show' : '']">
-                  <font-awesome-icon :icon="['fas', 'star']" />
+                  <font-awesome-icon :icon="['fas', 'star']"/>
                 </div>
               </div>
             </transition>
@@ -103,17 +100,17 @@
               <div class="sec" ref="sec" v-if="secShow">
                 <div class="border">
                   <div class="back" @click="reStart()">
-                    <font-awesome-icon :icon="['fas', 'circle-chevron-left']" />
+                    <font-awesome-icon :icon="['fas', 'circle-chevron-left']"/>
                     <span>Re</span>
                   </div>
                   <div class="back save" @click="save()">
-                    <font-awesome-icon :icon="['fas', 'circle-check']" />
+                    <font-awesome-icon :icon="['fas', 'circle-check']"/>
                     <span>Save</span>
                   </div>
                   <div class="top-tip">
                     <span>PS:</span>
                     <span
-                      >当前找到{{
+                    >当前找到{{
                         pixiv.pageCount
                       }}张插画，点击图片可放大预览</span
                     >
@@ -136,8 +133,8 @@
                           />
                         </div>
                         <div class="nick">
-                          <input type="text" v-model="pixivUser.name" />
-                          <input type="text" v-model="pixivUser.homeUrl" />
+                          <input type="text" v-model="pixivUser.name"/>
+                          <input type="text" v-model="pixivUser.homeUrl"/>
                         </div>
                       </div>
                       <div class="right">
@@ -167,15 +164,16 @@
 
 <script>
 import animeArea from "./animeArea";
-import { pixivInfo, toByte, list, save, imageInfo, del } from "@/js/api/pixiv";
+import {pixivInfo, toByte, list, save, imageInfo, del, auth} from "@/js/api/pixiv";
 import MenuSec from "./menuSec";
 import ImageArea from "../../components/xm-tools/image_area/imageArea";
 
 export default {
   name: "assets",
-  components: { ImageArea, MenuSec, animeArea },
+  components: {ImageArea, MenuSec, animeArea},
   data() {
     return {
+      author: [],
       defaultImg:
         "https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2022/03/20220307152150653.png?x-oss-process=image/resize,m_fill,w_2048,h_879/format,webp#",
       imgUrl:
@@ -214,10 +212,20 @@ export default {
     this.ossHost = ali.ossHost + "/";
     this.loadData();
     this.scrollListen();
+    this.loadAuthor();
+  },
+  beforeDestroy() {
+    window.removeEventListener(
+      "scroll",
+      this.scrollHandle,
+      true
+    );
   },
   methods: {
-    painter(){
-      
+    loadAuthor() {
+      auth().then(res => {
+        if (res.code === 200) this.author = res.data;
+      })
     },
     copy(url) {
       this.$copyUrl(url);
@@ -228,7 +236,7 @@ export default {
         return;
       }
       this.loadPixivInfo = true;
-      let res = await pixivInfo({ url: this.pixivUrl });
+      let res = await pixivInfo({url: this.pixivUrl});
       if (res.code !== 200) {
         this.$xmMessage.error("获取插画失败, 请检查路径是否正确!");
       }
@@ -256,13 +264,13 @@ export default {
       for (let i = 0; i < pixiv.pageCount; i++) {
         let url = p0.replace("_p0", "_p" + i);
         // 让浏览器提前缓存图片
-        res = await toByte({ url: url });
+        res = await toByte({url: url});
         this.imgUploadList.push("/api/pixiv/toByte?url=" + url);
       }
       // 提前对作者头像和主页壁纸进行缓存
-      res = await toByte({ url: this.pixivUser.imageBig });
+      res = await toByte({url: this.pixivUser.imageBig});
       if (this.pixivUser.background && this.pixivUser.background.url)
-        res = await toByte({ url: this.pixivUser.background.url });
+        res = await toByte({url: this.pixivUser.background.url});
 
       this.loadPixivInfo = false;
       this.firstShow = false;
@@ -288,19 +296,20 @@ export default {
     scrollListen() {
       window.addEventListener(
         "scroll",
-        (e) => {
-          let scroll = document.querySelector(".info");
-          if (scroll) {
-            this.scrollV = scroll.scrollTop;
-            let nowV = scroll.scrollHeight - scroll.clientHeight;
-            if (this.scrollV === nowV) {
-              this.query.page++;
-              this.loadData();
-            }
-          }
-        },
+        this.scrollHandle,
         true
       );
+    },
+    scrollHandle() {
+      let scroll = document.querySelector(".info");
+      if (scroll) {
+        this.scrollV = scroll.scrollTop;
+        let nowV = scroll.scrollHeight - scroll.clientHeight;
+        if (this.scrollV === nowV) {
+          this.query.page++;
+          this.loadData();
+        }
+      }
     },
     async loadData() {
       this.loading = true;
@@ -376,7 +385,7 @@ export default {
         xhr.responseType = "blob";
         xhr.onload = () => {
           blob = xhr.response;
-          let imgFile = new File([blob], imageName, { type: blob.type });
+          let imgFile = new File([blob], imageName, {type: blob.type});
           resolve(imgFile);
         };
         xhr.onerror = (e) => {

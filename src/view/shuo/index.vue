@@ -205,6 +205,14 @@ export default {
     await this.initList();
     this.scrollListen();
   },
+  beforeDestroy() {
+    // 销毁前移除监听事件，destroy 中无效
+    window.removeEventListener(
+      "scroll",
+      this.scrollEvent,
+      true
+    );
+  },
   methods: {
     async submit() {
       if (!this.content) {
@@ -282,18 +290,19 @@ export default {
     scrollListen() {
       window.addEventListener(
         "scroll",
-        (e) => {
-          let scroll = document.querySelector(".scroll");
-          if (scroll) {
-            this.scrollV = scroll.scrollTop;
-            this.indexHandle(
-              this.showIndex,
-              scroll.scrollTop + this.windowHeight
-            );
-          }
-        },
+        this.scrollEvent,
         true
       );
+    },
+    scrollEvent(e){
+      let scroll = document.querySelector(".scroll");
+      if (scroll) {
+        this.scrollV = scroll.scrollTop;
+        this.indexHandle(
+          this.showIndex,
+          scroll.scrollTop + this.windowHeight
+        );
+      }
     },
     indexHandle(index, scrollV) {
       if (index < this.list.length - 1) {
