@@ -172,20 +172,58 @@ const utils = function () {
       ret = new RegExp("(" + k + ")").exec(fmt);
       if (ret) {
         fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
-      };
-    };
+      }
+      ;
+    }
+    ;
     return fmt;
   },
-  Vue.prototype.$copyUrl = function(url){
-    const input = document.createElement("input"); // 构建input
-    input.value = url; // 设置内容
-    console.log(input.value);
-    document.body.appendChild(input); // 添加临时实例
-    input.select(); // 选择实例内容
-    document.execCommand("Copy"); // 执行复制
-    document.body.removeChild(input); // 删除临时实例
-    this.$xmMessage.success("复制成功！");
+    Vue.prototype.$copyUrl = function (url) {
+      const input = document.createElement("input"); // 构建input
+      input.value = url; // 设置内容
+      console.log(input.value);
+      document.body.appendChild(input); // 添加临时实例
+      input.select(); // 选择实例内容
+      document.execCommand("Copy"); // 执行复制
+      document.body.removeChild(input); // 删除临时实例
+      this.$xmMessage.success("复制成功！");
+    },
+    Vue.prototype.$downloadFile = function (url, name) {
+      download(url, name)
+    }
+}
+
+//下载文件,文件
+export function download(url, name) {
+  if (!url) {
+    return;
   }
+  getUrlBase64(url).then((base64) => {
+    let a = document.createElement("a");
+    a.style.display = "none";
+    a.download = name;
+    a.href = base64;
+    document.body.appendChild(a);
+    a.click();
+  });
+}
+
+export function getUrlBase64(url) {
+  return new Promise((resolve) => {
+    let canvas = document.createElement("canvas");
+    let ctx = canvas.getContext("2d");
+    let img = new Image();
+    img.crossOrigin = "Anonymous"; //允许跨域
+    img.src = url;
+    img.onload = function () {
+      canvas.height = img.height;
+      canvas.width = img.width;
+      ctx.drawImage(img, 0, 0, img.width, img.height);
+      let dataURL = canvas.toDataURL("image/png");
+      canvas = null;
+      resolve(dataURL);
+    };
+  });
 }
 
 export default utils;

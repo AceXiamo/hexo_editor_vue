@@ -2,6 +2,7 @@
   <div class="menuSec">
     <div id="menu">
       <span @click="copyUrl">复制链接</span>
+      <span @click="download">下载插画</span>
       <span @click="del">删除插画</span>
     </div>
   </div>
@@ -23,6 +24,12 @@ export default {
     },
     copyUrl() {
       this.$parent.copy(this.$parent.list[this.imgIndex].url);
+    },
+    download() {
+      let url = this.$parent.list[this.imgIndex].url;
+      let name = url.split('/');
+      name = name[name.length - 1]
+      this.$downloadFile(url, name);
     },
     init() {
       let this_ = this;
