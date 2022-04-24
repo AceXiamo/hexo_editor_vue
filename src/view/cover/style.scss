@@ -32,7 +32,7 @@
 
     span:nth-child(1) {
       font-size: 25px;
-      color: #00000090;
+      color: black;
 
       > * {
         margin-left: 5px;
@@ -44,7 +44,7 @@
       font-size: 30px;
       position: absolute;
       right: 40px;
-      color: #9E86FF;
+      color: #FFE155;
       animation: spin 2s infinite linear reverse;
     }
   }

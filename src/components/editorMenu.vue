@@ -1,7 +1,7 @@
 <template>
   <div :class="['menu-bar', hide?'hide':'']">
     <span
-      :class="[item.class, active == item.class ? 'menu-active' : '']"
+      :class="[item.class, active === item.class ? 'menu-active' : '']"
       v-for="(item, i) in menu"
       @click="to(item.path)"
       :key="i"
@@ -19,22 +19,22 @@ export default {
       active: "",
       menu: [
         {
-          name: "Hexo编辑器",
+          name: "✨ Hexo编辑器",
           class: "hexo",
           path: "/hexo"
         },
         {
-          name: "Cover>封面图",
+          name: "🍭 Cover>封面图",
           class: "cover",
           path: "/cover"
         },
         {
-          name: "说说",
+          name: "🍒 说说",
           class: "shuo",
           path: "/shuo"
         },
         {
-          name: "插画&Upload",
+          name: "🥕 插画&Upload",
           class: "image",
           path: "/image"
         }
@@ -42,14 +42,14 @@ export default {
     };
   },
   mounted() {
-    this.acitve();
+    this.activeHandle();
   },
   methods: {
     to(path) {
       this.$router.push(path);
-      this.acitve();
+      this.activeHandle();
     },
-    acitve() {
+    activeHandle() {
       let path = this.$route.path;
       this.active = path.split("/")[1];
     }
@@ -98,19 +98,19 @@ export default {
   }
 
   .hexo {
-    background-color: #00caff;
+    background-color: #00caff90;
   }
 
   .cover {
-    background-color: #efad70;
+    background-color: #FF6B6B90;
   }
 
   .shuo {
-    background-color: #eba2e6;
+    background-color: #eba2e690;
   }
 
   .image {
-    background-color: #48c088;
+    background-color: #48c08890;
   }
 }
 </style>

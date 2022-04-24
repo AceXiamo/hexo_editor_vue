@@ -16,7 +16,7 @@
         height: 25px;
         position: relative;
         z-index: 10;
-        background-color: rgba(193, 173, 227, 1);
+        background-color: #48c088;
         border: 2px solid white;
         color: white;
         font-size: 14px;
@@ -55,10 +55,12 @@
           }
 
           .type-list {
-            width: 74px;
+            //width: 74px;
+            width: 150px;
             padding: 5px;
-            background-color: rgba(64, 154, 207, .8);
-            color: white;
+            background-color: #EDFFF5;
+            color: #348C63;
+            border: 1px dashed #48C088;
             border-radius: 4px;
 
             > div {
@@ -82,8 +84,9 @@
               height: 16px;
               width: 16px;
               border-radius: 100%;
-              background-color: #FFBB9B;
-              color: white;
+              background-color: #EBFFF1;
+              border: 1px solid #48C088;
+              color: #466956;
 
               > div {
                 cursor: pointer;
