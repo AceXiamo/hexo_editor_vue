@@ -108,11 +108,11 @@ const utils = function () {
     }
     sizeVerify = file.size / 1024 / 1024 < size;
     if (!typeVerify) {
-      this.$xMessage.error('选择的文件格式有误, 请重新选择!');
+      this.$xmMessage.error('选择的文件格式有误, 请重新选择!');
       return false;
     }
     if (!sizeVerify) {
-      this.$xMessage.error('选择的文件最大不能超过5M, 请重新选择!');
+      this.$xmMessage.error('选择的文件最大不能超过5M, 请重新选择!');
       return false;
     }
     return true;

@@ -3,6 +3,7 @@
     <div id="menu">
       <span @click="copyUrl">复制链接</span>
       <span @click="download">下载插画</span>
+      <span @click="toCover">添加到封面图</span>
       <span @click="del">删除插画</span>
     </div>
   </div>
@@ -30,6 +31,10 @@ export default {
       let name = url.split('/');
       name = name[name.length - 1]
       this.$downloadFile(url, name);
+    },
+    toCover() {
+      let url = this.$parent.list[this.imgIndex].url;
+      this.$submitCover(-1, url, this);
     },
     init() {
       let this_ = this;
@@ -66,7 +71,11 @@ export default {
       }
       window.onclick = function (e) {//关闭右键菜单
         this_.$parent.imgIndex = -1;
-        document.getElementById('menu').style.visibility = 'hidden';　//用户触发click事件就可以关闭了，因为绑定在window上，按事件冒泡处理，不会影响菜单的功能
+        try {
+          document.getElementById('menu').style.visibility = 'hidden';　//用户触发click事件就可以关闭了，因为绑定在window上，按事件冒泡处理，不会影响菜单的功能
+        }catch (e){
+          console.log("%c没有报错!没有报错!没有报错!", "color: #70C5B3")
+        }
       }
     }
   }
