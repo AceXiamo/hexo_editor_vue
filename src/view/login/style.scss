@@ -1,148 +1,232 @@
 .login {
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+
+  .left {
     height: 100vh;
-    width: 100vw;
-    overflow: hidden;
+    width: 55vw;
     position: relative;
-    display: flex;
+    display: inline-flex;
     justify-content: center;
     align-items: center;
-    .background {
+    overflow: hidden;
+
+    > .bg_top, > .bg_bottom {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      opacity: 0;
+      background-image: url("https://alioss.xiamoqwq.com/anime_pic/2022032811393490123.jpg");
+      background-size: cover;
+    }
+
+    > .filter {
+      position: absolute;
+      top: 0;
+      height: 100%;
+      width: 100%;
+      //backdrop-filter: blur(8px);
+      //background: rgba(255, 255, 255, .25);
+      background-image: url("https://alioss.xiamoqwq.com/blog/gh/moezx/cdn%403.1.9/img/Sakura/images/dot.gif");
+
+    }
+  }
+
+  .right {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    width: 45vw;
+    position: relative;
+
+    > .title {
+      position: absolute;
+      top: 150px;
+      font-size: 30px;
+      display: flex;
+      align-items: center;
+
+      > div {
+        position: relative;
+
+        > span:nth-child(1) {
+          position: absolute;
+          transform: translateX(-100%);
+        }
+
+        > span:nth-child(2) {
+          margin-left: 10px;
+          background-color: #8EC5FC;
+          background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+          -webkit-background-clip: text;
+          font-weight: 700;
+          color: transparent;
+        }
+      }
+
+      > div:nth-child(2) {
+        position: absolute;
+        margin-top: 12px;
+        filter: blur(5px);
+      }
+    }
+
+    > .login-content {
+      display: inline-flex;
+      flex-direction: column;
+
+      > .username {
+        margin-bottom: 40px;
+        position: relative;
+        padding-bottom: 7px;
+
+        > input {
+          width: 300px;
+          border: unset;
+          outline: unset;
+          font-size: 15px;
+
+          &:focus + .border::before {
+            background-color: #A673E6;
+            width: 100%;
+            transition: all .5s;
+          }
+        }
+      }
+
+      > .password {
+        margin-bottom: 60px;
+        position: relative;
+        padding-bottom: 5px;
+
+        > input {
+          width: 300px;
+          border: unset;
+          outline: unset;
+
+          &:focus + .border::before {
+            background-color: #A673E6;
+            width: 100%;
+            transition: all .3s;
+          }
+        }
+      }
+
+      .border {
+        content: "";
+        position: absolute;
+        bottom: 0;
+        height: 2px;
         width: 100%;
-        height: 100%;
-        z-index: 1;
-        background-image: url(https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2021/11/20211122161241416.jpg);
-        background-size: cover;
+        background-color: #DAD5E3;
+        transition: all .3s;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 0;
+          height: 100%;
+          transition: all .3s;
+        }
+      }
+
+      .input-border {
+        &::before {
+          background-color: #A673E6;
+          width: 100%;
+          transition: all .3s;
+        }
+      }
+
+      > .btn {
+        display: inline-flex;
+        justify-content: center;
+        align-items: center;
+        background-color: #C1ADE3;
+        border: 1px solid #A673E690;
+        color: white;
+        height: 50px;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
+
+    > .foot {
+      position: absolute;
+      bottom: 10px;
+      font-size: 14px;
+
+      > span {
         position: absolute;
-        transform: scale(1.01);
-        transition: 0.5s all;
+        right: 0;
+        transform: translateX(100%);
+      }
     }
-    .login-c {
-        height: 400px;
-        width: 550px;
-        z-index: 10;
+
+    > .background {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      overflow: hidden;
+      z-index: -1;
+
+      > .round {
+        border-radius: 100%;
+        height: 600px;
+        width: 600px;
+        background-color: #F5ABDD30;
+        z-index: -1;
         position: absolute;
-        border-radius: 10px;
-        background-color: rgba(255, 255, 255, 0.2);
-        backdrop-filter: blur(10px);
-        .qwq-icon {
-            display: flex;
-            justify-content: center;
-            position: absolute;
-            top: 40px;
-            width: 100%;
-            color: white;
-            font-size: 18px;
-            >span {
-                padding: 5px 10px;
-                border-radius: 6px;
-                transition: all 0.2s;
-                position: relative;
-                // background: coral;
-                font-weight: bolder;
-                display: flex;
-                align-items: center;
-                // &::before,
-                // &::after {
-                //   content: "";
-                //   position: absolute;
-                //   width: 20px;
-                //   height: 5px;
-                //   background: coral;
-                // }
-                // &::before {
-                //   border-radius: 50px 0 0 50px;
-                //   left: -20px;
-                // }
-                // &::after {
-                //   border-radius: 0 50px 50px 0;
-                //   right: -20px;
-                // }
-            }
-        }
-        .login-form {
-            position: absolute;
-            top: 105px;
-            width: 100%;
-            height: 170px;
-            display: flex;
-            justify-content: center;
-            flex-direction: column;
-            >div {
-                flex: 1;
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                .line-border {
-                    position: relative;
-                    height: 50%;
-                    >input {
-                        height: 100%;
-                        border: unset;
-                        outline: none;
-                        width: 370px;
-                        padding: 0 10px;
-                        background: unset;
-                        backdrop-filter: blur(30px);
-                        color: rgba(255, 255, 255, 1);
-                        border-radius: 10px;
-                        &::-webkit-input-placeholder {
-                            color: white;
-                        }
-                    }
-                }
-            }
-        }
-        .btn {
-            width: 390px;
-            height: 50px;
-            position: absolute;
-            bottom: 40px;
-            left: 0;
-            right: 0;
-            margin: auto;
-            border-radius: 50px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            >span {
-                pointer-events: none;
-                color: white;
-                z-index: 1;
-            }
-            .color {
-                pointer-events: none;
-                position: absolute;
-                height: 1000px;
-                width: 1000px;
-                border-radius: 100%;
-                background: conic-gradient( hsl(0deg, 100%, 50%), hsl(45deg, 100%, 50%), hsl(90deg, 100%, 50%), hsl(135deg, 100%, 50%), hsl(180deg, 100%, 50%), hsl(225deg, 100%, 50%), hsl(270deg, 100%, 50%), hsl(315deg, 100%, 50%), hsl(360deg, 100%, 50%));
-                top: -45px;
-                animation: spin linear 5s infinite;
-            }
-        }
-        .copy-shadow {
-            pointer-events: none;
-            bottom: 35px;
-            opacity: 0;
-            width: 400px;
-            height: 60px;
-            filter: blur(15px);
-            transition: all 0.5s;
-        }
+        right: 0;
+        bottom: 0;
+        transform: translateX(50%) translateY(50%);
+      }
+
+      > .neko {
+        position: absolute;
+        bottom: 0;
+        right: -70px;
+        height: 285px;
+      }
     }
-    .login-c:hover {
-        transition: all 0.5s;
-    }
-    .login-c:hover .copy-shadow {
-        opacity: 0.5;
-        transition: all 0.5s;
-    }
-    .login-c:hover .qwq-icon>span {
-        transition: all 0.2s;
-    }
-    .login-c:hover+.background {
-        transform: scale(1.05);
-        transition: 0.5s all;
-    }
+  }
+}
+
+/* 处理chrome记住密码后对文本框css的修改 - Start */
+input:-webkit-autofill, textarea:-webkit-autofill, select:-webkit-autofill {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  background-color: transparent;
+  background-image: none;
+  transition: background-color 50000s ease-in-out 0s;
+}
+
+input {
+  background-color: transparent;
+}
+
+/* 处理chrome记住密码后对文本框css的修改 - End */
+
+.background-ani {
+  opacity: 1 !important;
+  animation: 5s bg_ani ease;
+}
+
+@keyframes bg_ani {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
 }

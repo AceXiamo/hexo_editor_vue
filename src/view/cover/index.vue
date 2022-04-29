@@ -50,8 +50,8 @@ export default {
         this.list = res.data;
       })
     },
-    remove(index) {
-      this.$submitCover(index, "", this);
+    async remove(index) {
+      await this.$submitCover(index, "", this);
       this.initCover();
     },
     async upload(e) {

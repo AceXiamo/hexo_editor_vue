@@ -1,32 +1,34 @@
 <template>
   <div class="login">
-    <div class="login-c">
-      <div class="qwq-icon">
-        <span>Hexo Editor</span>
+    <div class="left">
+      <div class="bg_bottom"></div>
+      <div class="bg_top"></div>
+      <div class="filter"></div>
+    </div>
+    <div class="right">
+      <div class="title">
+        <div v-for="index of 2"><span>🍭</span> <span>Hexo Editor</span></div>
       </div>
-      <div class="login-form">
-        <div>
-          <div class="line-border">
-            <input type="text" v-model="username" placeholder="username..."/>
-          </div>
+      <div class="login-content">
+        <div class="username">
+          <input type="text" v-model="username" placeholder="username...">
+          <div :class="['border', username?'input-border':'']"></div>
         </div>
-        <div>
-          <div class="line-border">
-            <input type="password" v-model="password" placeholder="password..."/>
-          </div>
+        <div class="password" :class="[password?'input-border':'']">
+          <input type="password" @keyup.enter="toEdit" v-model="password" placeholder="password...">
+          <div :class="['border', password?'input-border':'']"></div>
         </div>
-      </div>
-      <div>
-        <div class="btn" @click="toEdit()">
+        <div class="btn" @click="toEdit">
           <span>登 陆</span>
-          <div class="color"></div>
         </div>
-        <div class="btn copy-shadow">
-          <div class="color"></div>
-        </div>
+      </div>
+      <div class="foot">
+        powered by xiamo@2021 <span>💤</span>
+      </div>
+      <div class="background">
+        <img class="neko" src="https://alioss.xiamoqwq.com/素材/202204291433062302.png" alt=""/>
       </div>
     </div>
-    <div class="background"></div>
   </div>
 </template>
 
@@ -38,12 +40,58 @@ export default {
   data() {
     return {
       username: "",
-      password: ""
+      password: "",
+      imgList: [],
+      bgInter: {},
+      nextBg: "top",
+      bgIndex: 0,
+      bgTop: document.querySelector(".bg_top"),
+      bgBottom: document.querySelector(".bg_bottom"),
     };
   },
   mounted() {
+    this.initBackground();
+    this.bgHandle();
   },
   methods: {
+    initBackground() {
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/20220312143373655.png?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/2022032811393490123.jpg?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/20220427935468138.jpg?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/2022031220274637629.jpg?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/20220427964812556.jpg?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/2022041817361259360.jpg?x-oss-process=style/large");
+      this.imgList.push("https://alioss.xiamoqwq.com/anime_pic/202203151446394315.jpg?x-oss-process=style/large");
+    },
+    bgHandle() {
+      let top = document.querySelector(".bg_top");
+      let bottom = document.querySelector(".bg_bottom");
+      this.bgSwitch(top, bottom);
+      this.bgInter = setInterval(() => {
+        this.bgSwitch(top, bottom);
+      }, 5000)
+    },
+    bgSwitch(top, bottom) {
+      if (this.nextBg === "top") {
+        this.nextBg = "bottom";
+        bottom.setAttribute("class", "bg_bottom background-ani");
+        bottom.style.cssText = "background-image: url('" + this.imgList[this.bgIndex] + "')";
+        top.setAttribute("class", "bg_top");
+        setTimeout(() => {
+          top.style.cssText = "background-image: url('" + this.imgList[this.bgIndex] + "'); opacity: 1; z-index: -1;";
+        }, 4750)
+      } else {
+        this.nextBg = "top";
+        top.setAttribute("class", "bg_top background-ani");
+        top.style.cssText = "background-image: url('" + this.imgList[this.bgIndex] + "')";
+        bottom.setAttribute("class", "bg_bottom");
+        setTimeout(() => {
+          bottom.style.cssText = "background-image: url('" + this.imgList[this.bgIndex] + "'); opacity: 1; z-index: -1;";
+        }, 4750)
+      }
+      this.bgIndex++;
+      if (this.bgIndex >= this.imgList.length) this.bgIndex = 0;
+    },
     toEdit() {
       login({username: this.username, password: this.password}).then(
         res => {
