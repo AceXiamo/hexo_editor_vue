@@ -237,7 +237,7 @@ export default {
     },
     init() {
       // 取Cookie中配置的路径，首次加载/取不到则需要再次配置
-      let fileUrl = this.$cookie.get("fileUrl");
+      let fileUrl = this.$cookies.get("fileUrl");
       if (!fileUrl) {
         this.loadTip();
         this.showUrlEdit = true;
@@ -426,7 +426,7 @@ export default {
       if (this.fileUrl.substr(this.fileUrl.length - 1, 1) != "/") {
         this.fileUrl += "/";
       }
-      this.$cookie.set("fileUrl", this.fileUrl);
+      this.$cookies.set("fileUrl", this.fileUrl);
       this.fileArray = this.fileUrl.split("/");
       this.loadFile();
     },
@@ -442,9 +442,9 @@ export default {
       this.$xmMessage.warning("退出登陆成功！");
       // 清除缓存并退出登陆
       // this.$cookie.remove("fileUrl");
-      this.$cookie.remove("token");
-      this.$cookie.remove("user");
-      this.$cookie.remove("shuoUser");
+      this.$cookies.remove("token");
+      this.$cookies.remove("user");
+      this.$cookies.remove("shuoUser");
       this.$router.push("/login");
       localStorage.removeItem("ali");
     }

@@ -318,16 +318,16 @@ export default {
       }
     },
     async initUser() {
-      let sUser = this.$cookie.get("shuoUser");
+      let sUser = this.$cookies.get("shuoUser");
       if (sUser) {
         this.info = sUser;
       } else {
-        let user = this.$cookie.get("user");
+        let user = this.$cookies.get("user");
         if (user.shuo === "default_key_shuo") {
           // add
           let res = await this.$axios.get(this.apiUserAdd);
           this.info = res.data.data;
-          this.$cookie.set("shuoUser", this.info);
+          this.$cookies.set("shuoUser", this.info);
           await this.updateKey(this.info.userKey, "default_key_shuo");
         } else {
           // update
@@ -337,7 +337,7 @@ export default {
           let res = await this.$axios.post(this.apiUser, this.info);
           this.info = res.data.data;
           // 更新缓存
-          this.$cookie.set("shuoUser", this.info);
+          this.$cookies.set("shuoUser", this.info);
         }
       }
     },
@@ -347,7 +347,7 @@ export default {
         console.log("%c说说用户标识更新成功!", "color: #70C5B3");
     },
     async saveUser() {
-      let oldKey = this.$cookie.get("shuoUser").userKey;
+      let oldKey = this.$cookies.get("shuoUser").userKey;
       this.$axios.post(this.apiUser, this.info).then(async (res) => {
         if (res.data.code != 200) {
           this.$xmMessage.error(res.data.msg);
@@ -355,7 +355,7 @@ export default {
           this.$xmMessage.success("修改成功!");
           this.info = res.data.data;
           // 更新缓存
-          this.$cookie.set("shuoUser", this.info);
+          this.$cookies.set("shuoUser", this.info);
           if (this.info.userKey !== oldKey) {
             this.updateKey(this.info.userKey, oldKey);
             await this.loadShuo();

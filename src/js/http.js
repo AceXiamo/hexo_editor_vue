@@ -9,7 +9,7 @@ var instance = axios.create({});
 instance.interceptors.request.use((config) => {
     let url = config.url;
     //调用登录的时候不需要token
-    config.headers.Auth = this.$cookie.get("Auth") || "";
+    config.headers.Auth = this.$cookies.get("Auth") || "";
     // config.baseURL = "http://localhost:7070";
     // config.baseURL = baseURL.backend;
     // if (url.indexOf("/faceentrance/") > -1) {

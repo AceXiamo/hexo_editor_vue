@@ -93,11 +93,15 @@ export default {
       if (this.bgIndex >= this.imgList.length) this.bgIndex = 0;
     },
     toEdit() {
+      if (!(this.username && this.password)) {
+        this.$xmMessage.success("💢");
+        return
+      }
       login({username: this.username, password: this.password}).then(
         res => {
           if (res.code === 200) {
-            this.$cookie.set("token", res.data.code);
-            this.$cookie.set("user", {
+            this.$cookies.set("token", res.data.code);
+            this.$cookies.set("user", {
               username: this.username,
               password: this.password,
               shuo: res.data.shuo

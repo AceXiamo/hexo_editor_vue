@@ -30,7 +30,10 @@ Vue.config.productionTip = false
 
 // cookie
 import cookie from 'vue-cookies'
-Vue.prototype.$cookie = cookie
+// cookie有效时间
+Vue.use(cookie)
+// 设置全局过期时间，Vue.use后设置无效 💦
+Vue.$cookies.config('30d')
 
 // session
 import VueSession from 'vue-session'
