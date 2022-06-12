@@ -47,7 +47,7 @@ export default {
   methods: {
     initCover() {
       all().then((res) => {
-        this.list = res.data;
+        this.list = res.data.reverse();
       })
     },
     async remove(index) {

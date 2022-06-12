@@ -65,6 +65,9 @@
 
             > div {
               cursor: pointer;
+              white-space: nowrap;
+              overflow: hidden;
+              text-overflow: ellipsis;
             }
 
             > div:not(:first-child) {
@@ -76,13 +79,17 @@
             padding: 5px;
             margin-left: 5px;
 
+            > div:not(:first-child) {
+              margin-top: 7px;
+            }
+
             > div {
               font-size: 10px;
               display: flex;
               justify-content: center;
               align-items: center;
-              height: 16px;
-              width: 16px;
+              height: 14px;
+              width: 14px;
               border-radius: 100%;
               background-color: #EBFFF1;
               border: 1px solid #48C088;
@@ -90,10 +97,6 @@
 
               > div {
                 cursor: pointer;
-              }
-
-              > div:not(:first-child) {
-                margin-top: 7px;
               }
             }
           }

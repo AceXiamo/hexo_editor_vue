@@ -24,10 +24,14 @@
         <div class="type-border">
           <div class="transition">
             <div class="type-list">
-              <div v-if="index < 10" v-for="(data, index) in author">{{ data.nick }}</div>
+              <div @click="authClick(0)">ALL</div>
+              <div @click="authClick(index + 1)" v-if="index < 10" v-for="(data, index) in author">{{ data.nick }}</div>
             </div>
             <div class="check-list">
-              <div>
+              <div :style="{'opacity': checkIndex  === 0?'1':'0'}">
+                <font-awesome-icon :icon="['fas', 'check']"/>
+              </div>
+              <div v-for="index of 10" :style="{'opacity': checkIndex  === index?'1':'0'}">
                 <font-awesome-icon :icon="['fas', 'check']"/>
               </div>
             </div>
@@ -174,6 +178,7 @@ export default {
   data() {
     return {
       author: [],
+      checkIndex: 0,
       defaultImg:
         "https://xiamo.oss-accelerate.aliyuncs.com/xiamo/WordPress/2022/03/20220307152150653.png?x-oss-process=image/resize,m_fill,w_2048,h_879/format,webp#",
       imgUrl:
@@ -202,6 +207,7 @@ export default {
       query: {
         page: 1,
         size: 35,
+        nick: ''
       },
       imgIndex: -1,
     };
@@ -222,6 +228,15 @@ export default {
     );
   },
   methods: {
+    authClick(index) {
+      this.checkIndex = index
+      this.list = []
+      this.query.page = 1
+      let author = this.author[index - 1]
+      if (author) this.query.nick = author.nick
+      else this.query.nick = ""
+      this.loadData()
+    },
     loadAuthor() {
       auth().then(res => {
         if (res.code === 200) this.author = res.data;

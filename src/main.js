@@ -5,15 +5,17 @@ import App from './App'
 import router from './router'
 
 // fontawesome
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { fas } from '@fortawesome/free-solid-svg-icons'
+import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome'
+import {library} from '@fortawesome/fontawesome-svg-core'
+import {fas} from '@fortawesome/free-solid-svg-icons'
+
 library.add(fas)
 Vue.component('font-awesome-icon', FontAwesomeIcon)
 
 // axios
 import './js/http'
 import axios from 'axios';
+
 Vue.prototype.$axios = axios;
 
 // 全局js、css
@@ -24,6 +26,7 @@ import "./css/animation.css"
 // markdown
 import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
+
 Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
@@ -37,20 +40,30 @@ Vue.$cookies.config('30d')
 
 // session
 import VueSession from 'vue-session'
+
 Vue.use(VueSession)
 
 // xm-tools
 import './components/xm-tools/tools'
 import './components/xm-tools/css/global.scss'
 
-/* eslint-disable no-new */
-new Vue({
-    el: '#app',
-    router,
-    components: { App },
-    template: '<App/>'
+router.beforeEach((to, from, next) => {
+  console.log(to.meta['requireAuth'])
+  if (to.meta['requireAuth']) {
+    let token = cookie.get("token");
+    if (token) next()
+    else {
+      next({
+        path: "/login"
+      })
+    }
+  } else next()
 })
 
-router.beforeEach((to, from, next) => {
-    next()
+/* eslint-disable no-new */
+new Vue({
+  el: '#app',
+  router,
+  components: {App},
+  template: '<App/>'
 })
