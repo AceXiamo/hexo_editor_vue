@@ -140,18 +140,18 @@ const utils = function () {
       let value2 = b[property];
       return value2 - value1;
     }
-  };
+  }
   Vue.prototype.$compareSmallToBig = function (property) {
     return function (a, b) {
-      var value1 = a[property];
-      var value2 = b[property];
+      let value1 = a[property];
+      let value2 = b[property];
       return value1 - value2;
     }
-  };
+  }
   Vue.prototype.$ossWebP = function (url) {
     let suffix = "?x-oss-process=image/format,webp#";
     return url + suffix;
-  };
+  }
   Vue.prototype.$isUrl = function (str_url) {
     let urlRegex = /(^(http|https):\/\/([\w\-]+\.)+[\w\-]+(\/[\w\u4e00-\u9fa5\-\.\/?\@\%\!\&=\+\~\:\#\;\,]*)?)/;
     let re = new RegExp(urlRegex);
@@ -171,26 +171,47 @@ const utils = function () {
     for (let k in opt) {
       ret = new RegExp("(" + k + ")").exec(fmt);
       if (ret) {
-        fmt = fmt.replace(ret[1], (ret[1].length == 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
+        fmt = fmt.replace(ret[1], (ret[1].length === 1) ? (opt[k]) : (opt[k].padStart(ret[1].length, "0")))
       }
-      ;
     }
-    ;
     return fmt;
-  },
-    Vue.prototype.$copyUrl = function (url) {
-      const input = document.createElement("input"); // 构建input
-      input.value = url; // 设置内容
-      console.log(input.value);
-      document.body.appendChild(input); // 添加临时实例
-      input.select(); // 选择实例内容
-      document.execCommand("Copy"); // 执行复制
-      document.body.removeChild(input); // 删除临时实例
-      this.$xmMessage.success("复制成功！");
-    },
-    Vue.prototype.$downloadFile = function (url, name) {
-      download(url, name)
+  }
+  Vue.prototype.$copyUrl = function (url) {
+    const input = document.createElement("input"); // 构建input
+    input.value = url; // 设置内容
+    console.log(input.value);
+    document.body.appendChild(input); // 添加临时实例
+    input.select(); // 选择实例内容
+    document.execCommand("Copy"); // 执行复制
+    document.body.removeChild(input); // 删除临时实例
+    this.$xmMessage.success("复制成功！");
+  }
+  Vue.prototype.$downloadFile = function (url, name) {
+    download(url, name)
+  }
+  Vue.prototype.$typeOfUrl = (url) => {
+    url = url.split('.')
+    return url[url.length - 1]
+  }
+  Vue.prototype.$base64ToBlob = (dataURL) => {
+    let arr = dataURL.split(','),
+      mime = arr[0].match(/:(.*?);/)[1],
+      bStr = atob(arr[1]),
+      n = bStr.length,
+      u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bStr.charCodeAt(n);
     }
+    return new Blob([u8arr], {type: mime});
+  }
+  Vue.prototype.$pixivRequestUrl = (url) => {
+    return "/api/pixiv/toByte?url=" + url;
+  }
+  Vue.prototype.$UrlToBlobUrl = async (url) => {
+    let base64 = await getUrlBase64(url)
+    let blob = await Vue.prototype.$base64ToBlob(base64)
+    return window.URL.createObjectURL(blob);
+  }
 }
 
 //下载文件,文件

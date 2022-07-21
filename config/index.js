@@ -11,7 +11,6 @@ module.exports = {
     assetsPublicPath: '/',
     proxyTable: {
       '/api': {
-        // target: 'https://edit.qwq.wiki/api',
         target: 'http://localhost:7070',
         changeOrigin: true,
         //ws: true, // proxy websockets

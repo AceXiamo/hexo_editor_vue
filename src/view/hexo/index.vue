@@ -166,14 +166,7 @@
 </template>
 
 <script>
-import {
-  files,
-  readFile,
-  saveFile,
-  removeFile,
-  createFile
-} from "@/js/api/file";
-import MenuSec from "../image/menuSec";
+import {createFile, files, readFile, removeFile, saveFile} from "@/js/api/file";
 
 export default {
   name: "index",
@@ -232,7 +225,7 @@ export default {
       let fileDom = document.querySelector(".wheel-bar");
       fileDom.addEventListener("wheel", event => {
         event.preventDefault();
-        fileDom.scrollLeft += event.deltaY;
+        fileDom.scrollLeft += Number(event.deltaY);
       });
     },
     init() {
@@ -253,8 +246,8 @@ export default {
     domInit() {
       // 用于固定侧栏宽度
       this.$nextTick(() => {
-        var width = this.$refs.leftFile.offsetWidth;
-        var rootW = document.body.offsetWidth;
+        let width = this.$refs.leftFile.offsetWidth;
+        let rootW = document.body.offsetWidth;
         this.leftMenuInitWidth = width;
         this.markdownInitWidth = rootW - width + 30;
       });
@@ -380,10 +373,10 @@ export default {
       }
       if (this.fileName) {
         // 修改
-        this.saveFile();
+        await this.saveFile();
       } else {
         this.showNameEdit = true;
-        this.loadTip2();
+        await this.loadTip2();
       }
     },
     newBlog() {

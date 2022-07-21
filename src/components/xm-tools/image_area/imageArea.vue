@@ -6,8 +6,8 @@
         <div :class="['img', ani?'img-hover':'']">
           <font-awesome-icon @mouseenter="ani = true" @mouseleave="ani = false" v-if="showDel" @click="del(url)"
                              class="del-icon" :icon="['fas', 'circle-xmark']"/>
-          <img v-if="urlKey" :src="url[urlKey] + suffix" @click="$ShowImage(url[urlKey])" alt=""/>
-          <img v-else :src="url + suffix" @click="$ShowImage(url)" alt=""/>
+          <img v-if="urlKey" :src="url[urlKey] + (hasSuffix?suffix:'')" @click="showBig(url[urlKey])" alt=""/>
+          <img v-else :src="url + (hasSuffix?suffix:'')" @click="" alt=""/>
         </div>
       </div>
     </div>
@@ -17,7 +17,7 @@
 <script>
 export default {
   name: "imageArea",
-  props: ['images', 'lineNum', 'showDel', 'urlKey'],
+  props: ['images', 'lineNum', 'showDel', 'urlKey', 'hasSuffix'],
   data() {
     return {
       ani: false,
@@ -27,6 +27,9 @@ export default {
   methods: {
     del(url) {
       this.images.splice(this.images.indexOf(url), 1)
+    },
+    showBig(url) {
+      this.$ShowImage(url);
     }
   }
 }

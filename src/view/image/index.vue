@@ -115,7 +115,7 @@
                     <span>PS:</span>
                     <span
                     >当前找到{{
-                        pixiv.pageCount
+                        pixiv['pageCount']
                       }}张插画，点击图片可放大预览</span
                     >
                   </div>
@@ -123,6 +123,8 @@
                     <image-area
                       :showDel="true"
                       :images="imgUploadList"
+                      urlKey="blobUrl"
+                      :hasSuffix="false"
                       :lineNum="8"
                     ></image-area>
                   </div>
@@ -132,7 +134,7 @@
                       <div class="left">
                         <div class="avatar">
                           <img
-                            :src="'/api/pixiv/toByte?url=' + pixivUser.imageBig"
+                            :src="pixivUser.imageBig_blobUrl"
                             alt=""
                           />
                         </div>
@@ -145,8 +147,7 @@
                         <img
                           :src="
                             pixivUser.background && pixivUser.background.url
-                              ? '/api/pixiv/toByte?url=' +
-                                pixivUser.background.url
+                              ? pixivUser.background.url_blobUrl
                               : defaultImg
                           "
                           alt=""
@@ -168,7 +169,7 @@
 
 <script>
 import animeArea from "./animeArea";
-import {pixivInfo, toByte, list, save, imageInfo, del, auth} from "@/js/api/pixiv";
+import {auth, list, pixivInfo, save, del} from "../../js/api/pixiv";
 import MenuSec from "./menuSec";
 import ImageArea from "../../components/xm-tools/image_area/imageArea";
 
@@ -228,6 +229,20 @@ export default {
     );
   },
   methods: {
+    async delPixiv(id) {
+      let res = await del({id: id});
+      if (res.code === 200) {
+        this.$xmMessage.success("删除成功~")
+        this.reload()
+      } else {
+        this.$xmMessage.error("Service Error~")
+      }
+    },
+    reload() {
+      this.query.page = 1;
+      this.list = []
+      this.loadData();
+    },
     authClick(index) {
       this.checkIndex = index
       this.list = []
@@ -262,30 +277,25 @@ export default {
       // 取key
       let key = this.pixivUrl.split("/");
       key = key[key.length - 1];
-      let pixiv = this.info.illust[key];
+      let pixiv = this.info['illust'][key];
       this.pixiv = pixiv;
-
-      let userKey = "";
-      for (let key in this.info.user) {
-        userKey = key;
-        break;
-      }
-      let res;
+      let userKey = Object.keys(this.info.user)[0];
       this.pixivUser = this.info.user[userKey];
       this.pixivUser.homeUrl =
         "https://www.pixiv.net/users/" + this.pixivUser.userId;
       // p0的url路径，根据此路径和 pageCount, 拼接出其它p的url
       let p0 = pixiv.urls.original;
-      for (let i = 0; i < pixiv.pageCount; i++) {
+      for (let i = 0; i < pixiv['pageCount']; i++) {
         let url = p0.replace("_p0", "_p" + i);
-        // 让浏览器提前缓存图片
-        res = await toByte({url: url});
-        this.imgUploadList.push("/api/pixiv/toByte?url=" + url);
+        let res = {};
+        res.blobUrl = await this.$UrlToBlobUrl(this.$pixivRequestUrl(url));
+        res.originalUrl = this.$pixivRequestUrl(url);
+        this.imgUploadList.push(res);
       }
       // 提前对作者头像和主页壁纸进行缓存
-      res = await toByte({url: this.pixivUser.imageBig});
+      this.pixivUser.imageBig_blobUrl = await this.$UrlToBlobUrl(this.$pixivRequestUrl(this.pixivUser.imageBig))
       if (this.pixivUser.background && this.pixivUser.background.url)
-        res = await toByte({url: this.pixivUser.background.url});
+        this.pixivUser.background.url_blobUrl = await this.$UrlToBlobUrl(this.$pixivRequestUrl(this.pixivUser.background.url))
 
       this.loadPixivInfo = false;
       this.firstShow = false;
@@ -340,11 +350,13 @@ export default {
       let images = [];
       let imageDetail = [];
       let date = new Date();
-      for (let url of this.imgUploadList) {
+      for (let imgData of this.imgUploadList) {
         let image = {};
-        let urlArr = url.split("/");
+        let urlArr = imgData.originalUrl.split("/");
         let fileName = urlArr[urlArr.length - 1];
-        let file = await this.getImageFileFromUrl(url, fileName);
+        let file = await this.getImageFileFromUrl(imgData.blobUrl, fileName);
+        // clear blob
+        URL.revokeObjectURL(imgData.blobUrl)
         let res = await this.$globalUploadFile(file, "/anime_pic/");
         image.id = this.$genId();
         image.url = this.ossHost + res.name;
@@ -353,7 +365,7 @@ export default {
 
         let detail = {};
         detail.id = this.$genId();
-        urlArr = url.split("url=");
+        urlArr = imgData.originalUrl;
         detail.original_path = urlArr[1];
         detail.image_id = image.id;
         detail.author_id = this.pixivUser.userId;
@@ -365,10 +377,13 @@ export default {
       let auth = {};
       auth.id = this.pixivUser.userId;
       auth.nick = this.pixivUser.name;
-      let avatarUrl = "/api/pixiv/toByte?url=" + this.pixivUser.imageBig;
-      let avatarArr = avatarUrl.split("/");
+      let avatarArr = this.pixivUser.imageBig.split("/");
       let avatarFileName = avatarArr[avatarArr.length - 1];
-      let file = await this.getImageFileFromUrl(avatarUrl, avatarFileName);
+      let file = await this.getImageFileFromUrl(this.pixivUser.imageBig_blobUrl, avatarFileName);
+      // clear blob
+      URL.revokeObjectURL(this.pixivUser.imageBig_blobUrl)
+      if (this.pixivUser.background && this.pixivUser.background.url)
+        URL.revokeObjectURL(this.pixivUser.background.url_blobUrl)
       let res2 = await this.$globalUploadFile(file, "/anime_pic_auth/avatar/");
       auth.avatar = this.ossHost + res2.name;
       auth.pixiv_code = this.pixivUser.userId;

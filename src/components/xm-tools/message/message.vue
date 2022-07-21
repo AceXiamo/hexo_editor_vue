@@ -79,7 +79,7 @@ export default {
   right: 0;
   text-align: center;
   animation: enter 0.5s forwards;
-  z-index: 999;
+  z-index: 999999;
   transition: height .2s;
   > span {
     display: flex;
@@ -102,6 +102,7 @@ export default {
     margin-bottom: 20px;
     position: absolute;
     box-shadow: 0 3px 10px rgba(153, 204, 102, 0.5);
+
     > span {
       flex: 9;
       color: white;

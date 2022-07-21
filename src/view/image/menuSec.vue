@@ -21,19 +21,22 @@ export default {
   },
   methods: {
     del() {
-      this.$xmMessage.error("删除达咩!");
+      let data = this.$parent['list'][this.imgIndex];
+      console.log(data)
+      this.$parent['delPixiv'](data.id)
+      // this.$xmMessage.error("删除达咩!");
     },
     copyUrl() {
-      this.$parent.copy(this.$parent.list[this.imgIndex].url);
+      this.$parent['copy'](this.$parent['list'][this.imgIndex].url);
     },
     download() {
-      let url = this.$parent.list[this.imgIndex].url;
+      let url = this.$parent['list'][this.imgIndex].url;
       let name = url.split('/');
       name = name[name.length - 1]
       this.$downloadFile(url, name);
     },
     toCover() {
-      let url = this.$parent.list[this.imgIndex].url;
+      let url = this.$parent['list'][this.imgIndex].url;
       this.$submitCover(-1, url, this);
     },
     init() {
@@ -91,12 +94,12 @@ export default {
     position: absolute;
     display: flex;
     flex-direction: column;
-    align-items: center;
     font-size: 13px;
     overflow: hidden;
     background-color: white;
 
     span {
+      text-align: center;
       cursor: pointer;
       padding: 10px 30px;
       transition: background-color .2s;
