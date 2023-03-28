@@ -174,7 +174,7 @@ import MenuSec from "./menuSec";
 import ImageArea from "../../components/xm-tools/image_area/imageArea";
 
 export default {
-  name: "assets",
+  name: "Image",
   components: {ImageArea, MenuSec, animeArea},
   data() {
     return {

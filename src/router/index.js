@@ -5,6 +5,7 @@ import login from '@/view/login/index'
 import shuo from '@/view/shuo/index'
 import image from '@/view/image/index'
 import cover from '@/view/cover/index'
+import file from '@/view/file/index'
 import cookie from 'vue-cookies'
 
 Vue.use(Router)
@@ -55,6 +56,14 @@ export default new Router({
       path: '/cover',
       name: 'cover',
       component: cover,
+      meta: {
+        requireAuth: true
+      }
+    },
+    {
+      path: '/file',
+      name: 'file',
+      component: file,
       meta: {
         requireAuth: true
       }

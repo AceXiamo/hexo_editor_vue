@@ -49,11 +49,21 @@ const multipartUpload = async function (file, fileName, contentType, progress) {
   }
 }
 
+const deleteFile = async (url) => {
+  try {
+    return await client.delete(url);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+
 const ossInit = function () {
   ossConfig();
   Vue.prototype.$AliOSSInit = ossConfig;
   Vue.prototype.$AliOSSUpload = upload;
   Vue.prototype.$AliOSSMultipartUpload = multipartUpload;
+  Vue.prototype.$AliOSSRemove = deleteFile;
 };
 
 export default ossInit;

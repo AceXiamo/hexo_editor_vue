@@ -1,6 +1,6 @@
 @font-face {
   font-family: 'AdobeCleanHanSC';
-  src: url('https://alioss.xiamoqwq.com/font/emmmm.woff2');
+  src: url('https://fastly.jsdelivr.net/gh/xm17906193/font/%E7%AD%91%E7%B4%ABA%E4%B8%B8.woff2');
   font-weight: 400;
   font-style: normal;
   font-display: swap;
@@ -14,8 +14,20 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'title-font';
+  src: url('https://alioss.xiamoqwq.com/font/ZCOOLKuaiLe-Regular.woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 *:not([class*="icon"]):not(i) {
   font-family: "AdobeCleanHanSC", "emoji-font", serif !important;
+}
+
+html {
+  overflow: hidden !important;
 }
 
 .images-scale {
@@ -119,4 +131,8 @@
 .blur-5 {
   filter: blur(5px) !important;
   transition: all .5s;
+}
+
+.top-index {
+  z-index: 100;
 }

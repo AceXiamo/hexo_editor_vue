@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <transition name="fade">
-      <router-view class="router"></router-view>
+      <keep-alive>
+        <router-view class="router"></router-view>
+      </keep-alive>
     </transition>
     <editor-menu :hide="hide"></editor-menu>
   </div>
@@ -14,7 +16,7 @@ export default {
   components: {EditorMenu},
   data() {
     return {
-      hide: false
+      hide: false,
     }
   },
   watch: {
@@ -38,5 +40,9 @@ export default {
 <style lang="scss" scoped>
 .router {
   position: fixed;
+}
+
+#app {
+  overflow: hidden;
 }
 </style>

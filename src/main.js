@@ -47,6 +47,14 @@ Vue.use(VueSession)
 import './components/xm-tools/tools'
 import './components/xm-tools/css/global.scss'
 
+// dayjs
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime'
+import cn from 'dayjs/locale/zh-cn'
+dayjs.locale(cn) // 全局使用
+dayjs.extend(relativeTime)
+Vue.prototype.$dayjs = dayjs
+
 router.beforeEach((to, from, next) => {
   console.log(to.meta['requireAuth'])
   if (to.meta['requireAuth']) {
@@ -60,10 +68,14 @@ router.beforeEach((to, from, next) => {
   } else next()
 })
 
+/* add vuetify */
+import vuetify from './plugins/vuetify'
+
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
+  vuetify,
   components: {App},
   template: '<App/>'
 })

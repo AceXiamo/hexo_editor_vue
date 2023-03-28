@@ -2,9 +2,9 @@
   <div class="img-area">
     <div class="images-scale">
       <div class="item" :style="{'width': 'calc(100% / '+lineNum+')', 'padding-bottom': 'calc(100% / '+lineNum+')'}"
-           v-for="url in images">
-        <div :class="['img', ani?'img-hover':'']">
-          <font-awesome-icon @mouseenter="ani = true" @mouseleave="ani = false" v-if="showDel" @click="del(url)"
+           v-for="(url, index) in images">
+        <div :class="['img', hoverIndex === index?'img-hover':'']">
+          <font-awesome-icon @mouseenter="hoverIndex = index" @mouseleave="hoverIndex = -1" v-if="showDel" @click="del(url)"
                              class="del-icon" :icon="['fas', 'circle-xmark']"/>
           <img v-if="urlKey" :src="url[urlKey] + (hasSuffix?suffix:'')" @click="showBig(url[urlKey])" alt=""/>
           <img v-else :src="url + (hasSuffix?suffix:'')" @click="" alt=""/>
@@ -20,7 +20,7 @@ export default {
   props: ['images', 'lineNum', 'showDel', 'urlKey', 'hasSuffix'],
   data() {
     return {
-      ani: false,
+      hoverIndex: false,
       suffix: "?x-oss-process=image/format,webp#"
     }
   },
@@ -55,6 +55,7 @@ export default {
       }
 
       .img {
+        box-shadow: 0 0 10px rgba(0,0,0,.2);
         position: absolute;
         margin: 5px;
         border: 5px solid rgba(0, 0, 0, 0.03);

@@ -1,7 +1,8 @@
 <template>
   <div :class="['menu-bar', hide?'hide':'']">
     <span
-      :class="[item.class, active === item.class ? 'menu-active' : '']"
+      :class="[item.key, active === item.key ? 'menu-active' : '']"
+      :style="{'background-color': item.color}"
       v-for="(item, i) in menu"
       @click="to(item.path)"
       :key="i"
@@ -20,23 +21,34 @@ export default {
       menu: [
         {
           name: "✨ Hexo编辑器",
-          class: "hexo",
-          path: "/hexo"
+          key: "hexo",
+          path: "/hexo",
+          color: '#00caff90'
         },
         {
           name: "🍭 Cover>封面图",
-          class: "cover",
-          path: "/cover"
+          key: "cover",
+          path: "/cover",
+          color: '#FF6B6B90'
         },
         {
           name: "🍒 说说",
-          class: "shuo",
-          path: "/shuo"
+          key: "shuo",
+          path: "/shuo",
+          color: '#eba2e690'
         },
         {
           name: "🥕 插画&Upload",
-          class: "image",
-          path: "/image"
+          key: "image",
+          path: "/image",
+          color: '#48c08890'
+        }
+        ,
+        {
+          name: "🍁 文件",
+          key: "file",
+          path: "/file",
+          color: '#A66CFF90'
         }
       ]
     };
@@ -80,37 +92,22 @@ export default {
     font-size: 12px;
     margin-right: 10px;
     position: relative;
-    bottom: 5px;
+    bottom: 0;
     cursor: default;
     transition: all 0.2s;
 
     &:hover {
       transition: all 0.2s;
       padding-bottom: $bottom;
-      bottom: $bottom;
+      bottom: $bottom - 5px;
     }
   }
 
   .menu-active {
     transition: all 0.2s;
     padding-bottom: $bottom;
-    bottom: $bottom;
+    bottom: $bottom - 5px;
   }
 
-  .hexo {
-    background-color: #00caff90;
-  }
-
-  .cover {
-    background-color: #FF6B6B90;
-  }
-
-  .shuo {
-    background-color: #eba2e690;
-  }
-
-  .image {
-    background-color: #48c08890;
-  }
 }
 </style>

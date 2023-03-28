@@ -169,7 +169,7 @@
 import {createFile, files, readFile, removeFile, saveFile} from "@/js/api/file";
 
 export default {
-  name: "index",
+  name: "Hexo",
   data() {
     return {
       fileUrl: "/data",

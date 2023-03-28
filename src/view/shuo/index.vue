@@ -14,7 +14,7 @@
                 />
               </div>
               <div class="user-info">
-                <img :src="info.avatar" alt="" />
+                <img :src="info.avatar" alt=""/>
                 <span>{{ info.nickname }}</span>
               </div>
             </div>
@@ -26,11 +26,11 @@
               <div class="user-config">
                 <div class="row">
                   <div>昵称:</div>
-                  <input type="text" v-model="info.nickname" />
+                  <input type="text" v-model="info.nickname"/>
                 </div>
                 <div class="row">
                   <div>key:</div>
-                  <input type="text" v-model="info.userKey" />
+                  <input type="text" v-model="info.userKey"/>
                 </div>
                 <div class="save-btn">
                   <div @click="saveUser()">保 存</div>
@@ -53,13 +53,13 @@
             <div class="images-scale">
               <div class="item" v-for="(img, index) in fileList" :key="index">
                 <div class="img">
-                  <img :src="img.status ? img.url : uploadGif" alt="" />
+                  <img :src="img.status ? img.url + '?x-oss-process=image/format,webp#' : uploadGif" alt=""/>
                 </div>
               </div>
               <div class="item">
                 <div class="img-sel">
-                  <input type="file" @change="uploadChange" />
-                  <font-awesome-icon :icon="['fas', 'plus']" />
+                  <input type="file" @change="uploadChange"/>
+                  <font-awesome-icon :icon="['fas', 'plus']"/>
                 </div>
               </div>
             </div>
@@ -87,7 +87,7 @@
           >
             <div class="user">
               <div class="left">
-                <img alt="" :src="data.avatar" />
+                <img alt="" :src="data.avatar"/>
               </div>
               <div class="right">
                 <span>{{ data.nickname }}</span>
@@ -105,7 +105,7 @@
                   :key="index"
                 >
                   <div class="img" @click="$ShowImage(img)">
-                    <img :src="img" alt="" />
+                    <img :src="img + '?x-oss-process=image/format,webp#'" alt=""/>
                   </div>
                 </div>
               </div>
@@ -168,10 +168,10 @@
 </template>
 
 <script>
-import { saveSKey } from "@/js/api/user";
+import {saveSKey} from "@/js/api/user";
 
 export default {
-  name: "shuo",
+  name: "Shuo",
   data() {
     return {
       info: {
@@ -294,7 +294,7 @@ export default {
         true
       );
     },
-    scrollEvent(e){
+    scrollEvent(e) {
       let scroll = document.querySelector(".scroll");
       if (scroll) {
         this.scrollV = scroll.scrollTop;
@@ -342,7 +342,7 @@ export default {
       }
     },
     async updateKey(key, oldKey) {
-      let res = await saveSKey({ key: key, oldKey: oldKey });
+      let res = await saveSKey({key: key, oldKey: oldKey});
       if (res.code === 200)
         console.log("%c说说用户标识更新成功!", "color: #70C5B3");
     },

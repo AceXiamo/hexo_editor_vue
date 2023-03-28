@@ -59,6 +59,17 @@ const utils = function () {
     return await this.$AliOSSUpload(file, path + fileName, file.type);
   }
 
+  /**
+   * 上传文件，不修改文件名
+   *
+   * @param file
+   * @param path
+   * @returns {Promise<*|undefined>}
+   */
+  Vue.prototype.$globalUploadFileNoRename = async function (file, path) {
+    return await this.$AliOSSUpload(file, path + file.name, file.type);
+  }
+
   /*
   * 分片上传 - 上传至阿里云OSS
   *

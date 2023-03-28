@@ -11,7 +11,7 @@
       <div class="item" v-for="(url, index) in list" :key="index">
         <div class="border">
           <div class="image">
-            <img @click="$ShowImage(url)" :src="url + '?x-oss-process=style/large'" alt=""/>
+            <img @click="$ShowImage(url)" :src="url + '?x-oss-process=style/medium'" alt=""/>
           </div>
           <div class="copy-shadow"></div>
           <div class="copy" @click="$copyUrl(url)">
@@ -22,7 +22,7 @@
         </div>
       </div>
     </div>
-    <div class="background"></div>
+    <div class="cover-background"></div>
   </div>
 </template>
 
@@ -30,7 +30,7 @@
 import {all} from "@/js/api/cover";
 
 export default {
-  name: "cover",
+  name: "Cover",
   data() {
     return {
       defaultImg: "https://alioss.xiamoqwq.com/xiamo/WordPress/2022/02/20220214072108405.png?x-oss-process=style/large",
